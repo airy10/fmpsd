@@ -8,11 +8,11 @@
 
 #define NS_BUILD_32_LIKE_64 1
 
-#import <Cocoa/Cocoa.h>
-#import <ApplicationServices/ApplicationServices.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import <Accelerate/Accelerate.h>
 #import "FMPSDLayer.h"
 
+#undef DEBUG
 #ifdef DEBUG
     #define debug(...) NSLog(__VA_ARGS__)
     #define PXAssert assert
@@ -25,6 +25,8 @@
 
 
 #define TSDebug(...) { if (TSDebugOn) { NSLog(__VA_ARGS__); } }
+
+extern NSString *FMPSDFileTypeForHFSTypeCode(OSType hfsFileTypeCode);
 
 enum {
     FMPSDBitmapMode = 0,
@@ -46,6 +48,8 @@ enum {
 
 
 extern BOOL FMPSDPrintDebugInfo;
+
+@protocol FMPSDProviderDelegate;
 
 @interface FMPSD : NSObject {
     
@@ -81,6 +85,8 @@ extern BOOL FMPSDPrintDebugInfo;
 @property (retain) FMPSDLayer *compositeLayer;
 @property (retain) FMPSDLayer *baseLayerGroup;
 
+@property (assign) id<FMPSDProviderDelegate> delegate;
+
 + (id)imageWithContetsOfURL:(NSURL*)fileURL error:(NSError**)err;
 + (id)imageWithContetsOfURL:(NSURL*)fileURL error:(NSError**)err printDebugInfo:(BOOL)debugInfo;
 + (void)printDebugInfoForFileAtURL:(NSURL*)fileURL;
@@ -97,10 +103,14 @@ extern BOOL FMPSDPrintDebugInfo;
 
 @end
 
+@protocol FMPSDProviderDelegate
+- (CGImageRef)imageForLayer:(FMPSDLayer *)layer;
+@end
+
 #define FMPSDCheck8BIMSig(psd__sig__, psd__stream__, err__) { \
 psd__sig__ = [psd__stream__ readInt32];\
 if (!((psd__sig__ == '8BIM') || (psd__sig__ == 'MeSa'))) { \
-NSString *s = [NSString stringWithFormat:@"%s:%d invalid signature at loc %ld %@", __FUNCTION__, __LINE__, [psd__stream__ location],  NSFileTypeForHFSTypeCode(psd__sig__)];\
+NSString *s = [NSString stringWithFormat:@"%s:%d invalid signature at loc %ld %@", __FUNCTION__, __LINE__, [psd__stream__ location],  FMPSDFileTypeForHFSTypeCode(psd__sig__)];\
 NSLog(@"%@", s);\
 if (err) { *err__ = [NSError errorWithDomain:@"8BIM" code:1 userInfo:[NSDictionary dictionaryWithObject:s forKey:NSLocalizedDescriptionKey]]; }\
 return NO;\

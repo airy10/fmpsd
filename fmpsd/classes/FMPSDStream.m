@@ -47,7 +47,7 @@
 	if (self != nil) {
 
         NSError *err = nil;
-        _inputDataStream = [NSData dataWithContentsOfURL:fileURL options:NSDataReadingMapped error:&err];
+        _inputDataStream = [NSData dataWithContentsOfURL:fileURL options:NSDataReadingMappedAlways error:&err];
         if (!_inputDataStream && err) {
             NSLog(@"err: '%@'", err);
             return nil;
@@ -116,19 +116,19 @@
     return len;
 }
 
-- (uint8)readInt8 {
+- (uint8_t)readInt8 {
     
-    uint8 value = 0;
+    uint8_t value = 0;
     
     [self read:&value maxLength:1];
     
     return value;
 }
 
-- (uint16)readInt16 {
+- (uint16_t)readInt16 {
     
     unsigned char buffer[2];
-    uint16 value = 0;
+    uint16_t value = 0;
     
     if ([self read:buffer maxLength:2] == 2) {
         value  = buffer[0] << 8;
@@ -139,10 +139,10 @@
     return value;
 }
 
-- (uint32)readInt32 {
+- (uint32_t)readInt32 {
     
     unsigned char buffer[4];
-    uint32 value = -1;
+    uint32_t value = -1;
     
     if ([self read:buffer maxLength:4] == 4) {
         value  = buffer[0] << 24;
@@ -155,10 +155,10 @@
 }
 
 
-- (sint32)readSInt32 {
+- (int32_t)readSInt32 {
     
     unsigned char buffer[4];
-    sint32 value = -1;
+    int32_t value = -1;
     
     if ([self read:buffer maxLength:4] == 4) {
         value  = buffer[0] << 24;
@@ -183,11 +183,11 @@
 }
 
 
-- (uint64)readInt64 {
+- (uint64_t)readInt64 {
     
-    uint64 value = 0;
+    uint64_t value = 0;
     
-    [self read:(uint8*)&value maxLength:8];
+    [self read:(uint8_t*)&value maxLength:8];
     
 #ifdef __LITTLE_ENDIAN__
     value = CFSwapInt64(value);
@@ -197,12 +197,12 @@
 }
 
 - (NSInteger)readChars:(char *)buffer maxLength:(NSUInteger)len {
-    return [self read:(uint8*)buffer maxLength:len];
+    return [self read:(uint8_t*)buffer maxLength:len];
 }
 
 - (NSString*)readPSDString16 {
     
-    sint32 size = [self readInt32];
+    int32_t size = [self readInt32];
     
     if (size <= 0) {
         return @"";
@@ -210,7 +210,7 @@
     
     unichar *c = malloc(sizeof(unichar) * (size + 1));
     
-    for (sint32 i = 0; i < size; i++) {
+    for (int32_t i = 0; i < size; i++) {
         c[i] = [self readInt16];
         
         if (c[i] == 0) {
@@ -230,8 +230,8 @@
 }
 
 // 4 bytes (length), followed either by string or (if length is zero) 4-byte classID
-- (NSString*)readPSDStringOrGetFourByteID:(uint32*)outId {
-    sint32 size = [self readInt32];
+- (NSString*)readPSDStringOrGetFourByteID:(uint32_t*)outId {
+    int32_t size = [self readInt32];
     
     if (size <= 0) {
         *outId = [self readInt32];
@@ -252,7 +252,7 @@
 
 - (NSString*)readPSDString {
     
-    uint32 size = [self readInt32];
+    uint32_t size = [self readInt32];
     
     if (size == 0) {
         size = 4;
@@ -261,11 +261,13 @@
     return [self readPSDStringOfLength:size];
 }
 
-- (NSString*)readPSDStringOfLength:(uint32)size {
+- (NSString*)readPSDStringOfLength:(uint32_t)size {
     
     char *c = malloc(sizeof(char) * (size + 1));
     
     NSInteger read = [self readChars:c maxLength:size];
+    (void)read; // make the compiler happy about unused var
+
     c[size] = 0;
     
     FMAssert(read == size);
@@ -283,7 +285,7 @@
 
 - (NSString*)readPascalString {
     
-    uint8 size = [self readInt8];
+    uint8_t size = [self readInt8];
     // Name: Pascal string, padded to make the size even (a null name consists of two bytes of 0)
     if((size & 0x01) == 0) {
         size ++;
@@ -304,6 +306,10 @@
 
 - (void)skipLength:(NSUInteger)len {
     _location += len;
+}
+
+- (void)seek:(long)len {
+    _location = len;
 }
 
 - (long)location {
@@ -343,39 +349,39 @@
     return data;
 }
 
-- (void)writeInt64:(uint64)value {
-    uint64 writeV = CFSwapInt64HostToBig(value);
+- (void)writeInt64:(uint64_t)value {
+    uint64_t writeV = CFSwapInt64HostToBig(value);
     [_outputStream write:(const uint8_t *)&writeV maxLength:8];
     _location += 8;
 }
 
-- (void)writeInt32:(uint32)value {
-    uint32 writeV = CFSwapInt32HostToBig(value);
+- (void)writeInt32:(uint32_t)value {
+    uint32_t writeV = CFSwapInt32HostToBig(value);
     [_outputStream write:(const uint8_t *)&writeV maxLength:4];
     _location += 4;
 }
 
-- (void)writeInt16:(uint16)value {
-    uint32 writeV = CFSwapInt16HostToBig(value);
+- (void)writeInt16:(uint16_t)value {
+    uint16_t writeV = CFSwapInt16HostToBig(value);
     [_outputStream write:(const uint8_t *)&writeV maxLength:2];
     _location += 2;
 }
 
 
-- (void)writeSInt16:(sint16)value {
-    uint32 writeV = CFSwapInt16HostToBig(value);
+- (void)writeSInt16:(int16_t)value {
+    uint16_t writeV = CFSwapInt16HostToBig(value);
     [_outputStream write:(const uint8_t *)&writeV maxLength:2];
     _location += 2;
 }
 
-- (void)writeInt8:(uint8)value {
+- (void)writeInt8:(uint8_t)value {
     [_outputStream write:(const uint8_t *)&value maxLength:1];
     _location += 1;
 }
 
 - (void)writeDataWithLengthHeader:(NSData*)data {
     
-    [self writeInt32:(uint32)[data length]];
+    [self writeInt32:(uint32_t)[data length]];
     
     if ([data length] == 0) {
         return;

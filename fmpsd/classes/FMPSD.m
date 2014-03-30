@@ -9,9 +9,25 @@
 
 #import "FMPSD.h"
 #import "FMPSDStream.h"
+#import <CoreGraphics/CoreGraphics.h>
+#import <ImageIO/ImageIO.h>
 #import <QuartzCore/QuartzCore.h>
 
 BOOL FMPSDPrintDebugInfo = NO;
+
+#if TARGET_OS_IPHONE
+NSString *FMPSDFileTypeForHFSTypeCode(OSType hfsFileTypeCode)
+{
+    return [NSString stringWithFormat:@"%.4s", (char *)&hfsFileTypeCode];
+}
+#else
+NSString *FMPSDFileTypeForHFSTypeCode(OSType hfsFileTypeCode)
+{
+    return NSFileTypeForHFSTypeCode(hfsFileTypeCode);
+}
+#endif
+
+
 
 @interface NSData (private)
 - (id)initWithBase64Encoding:(NSString*)s;
@@ -144,7 +160,11 @@ BOOL FMPSDPrintDebugInfo = NO;
 - (CGColorSpaceRef)colorSpace {
     
     if (!_colorSpace) {
+#if TARGET_OS_IPHONE
+        _colorSpace = CGColorSpaceCreateDeviceRGB();
+#else
         _colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+#endif
     }
     
     return _colorSpace;
@@ -190,10 +210,10 @@ BOOL FMPSDPrintDebugInfo = NO;
     }
     
     // make sure it's a psd file, or at least has the right signature.
-    uint32 sig;
+    uint32_t sig;
     if ((sig = [stream readInt32]) != '8BPS') {
         
-        NSString *s = [NSString stringWithFormat:@"%s:%d invalid start signature %@", __FUNCTION__, __LINE__, NSFileTypeForHFSTypeCode(sig)];
+        NSString *s = [NSString stringWithFormat:@"%s:%d invalid start signature %@", __FUNCTION__, __LINE__, FMPSDFileTypeForHFSTypeCode(sig)];
         NSLog(@"%@", s);
         if (err) {
             *err = [NSError errorWithDomain:@"8BPS" code:1 userInfo:[NSDictionary dictionaryWithObject:s forKey:NSLocalizedDescriptionKey]];
@@ -233,14 +253,14 @@ BOOL FMPSDPrintDebugInfo = NO;
         return NO;
     }
     
-    uint32 colorMapLen = [stream readInt32];
+    uint32_t colorMapLen = [stream readInt32];
     _colormapData = [stream readDataOfLength:colorMapLen];
     
     
     FMPSDDebug(@"colorMapLen: %d", colorMapLen);
     
     // we're reading in the resource bits for the PSD file
-    uint32 length = [stream readInt32];
+    uint32_t length = [stream readInt32];
     long endLoc   = [stream location] + length;
     
     FMPSDDebug(@"doc resource length: %d", length);
@@ -249,14 +269,14 @@ BOOL FMPSDPrintDebugInfo = NO;
     while ([stream location] < endLoc) {
         
         // Image Resource Blocks. 2, 2, variable pascal, 4, variable
-                
+        
         FMPSDCheck8BIMSig(sig, stream, err);
         
-        uint16 uID  = [stream readInt16];
+        uint16_t uID  = [stream readInt16];
         NSString *s = [stream readPascalString];
         
         // Actual size of resource data that follows
-        uint32 sizeofdata = [stream readInt32];
+        uint32_t sizeofdata = [stream readInt32];
         
         FMPSDDebug(@" + %d '%@' len: %d", uID, s, sizeofdata);
         
@@ -283,14 +303,14 @@ BOOL FMPSDPrintDebugInfo = NO;
     FMAssert(endLoc == [stream location]);
     
     // Layer and Mask Information Section
-    uint32 layerAndMaskInformationSectionLength = [stream readInt32];
+    uint32_t layerAndMaskInformationSectionLength = [stream readInt32];
     long pos = [stream location];
     
     FMPSDDebug(@"layer and mask info length: %d", layerAndMaskInformationSectionLength);
     
     if (layerAndMaskInformationSectionLength > 0) {
         
-        uint32 layerInfoLen = [stream readInt32]; // Length of the layers info section, rounded up to a multiple of 2
+        uint32_t layerInfoLen = [stream readInt32]; // Length of the layers info section, rounded up to a multiple of 2
         
         if ((layerInfoLen & 0x01) != 0) {
             layerInfoLen++;
@@ -300,7 +320,7 @@ BOOL FMPSDPrintDebugInfo = NO;
         
         if (layerInfoLen > 0) {
             
-            sint16 layerCt = [stream readInt16]; // Layer count. If it is a negative number, its absolute value is the number of layers and the first alpha channel contains the transparency data for the merged result.
+            int16_t layerCt = [stream readInt16]; // Layer count. If it is a negative number, its absolute value is the number of layers and the first alpha channel contains the transparency data for the merged result.
             
             layerCt = abs(layerCt);
             
@@ -342,7 +362,7 @@ BOOL FMPSDPrintDebugInfo = NO;
                     //debug(@"[layer dividerType]: %d", [layer dividerType]);
                     
                     switch ([layer dividerType]) {
-                        
+                            
                         case FMPSDLayerTypeNormal:
                             debug(@"NORMAL %@", [layer layerName]);
                             [currentGroup addLayerToGroup:layer];
@@ -362,7 +382,7 @@ BOOL FMPSDPrintDebugInfo = NO;
                             currentGroup = [currentGroup parent];
                             
                             break;
-                        
+                            
                         default:
                             debug(@"[layer dividerType]: %d", [layer dividerType]);
                             FMAssert(NO);
@@ -395,7 +415,7 @@ BOOL FMPSDPrintDebugInfo = NO;
     
     FMPSDDebug(@"location when reading in composite: %ld", [stream location]);
     
-    FMPSDLayer *layer = [FMPSDLayer layerWithSize:NSMakeSize(_width, _height) psd:self];
+    FMPSDLayer *layer = [FMPSDLayer layerWithSize:CGSizeMake(_width, _height) psd:self];
     
     [layer setChannels:_channels];
     [layer setupChannelIdsForCompositeRead];
@@ -407,10 +427,10 @@ BOOL FMPSDPrintDebugInfo = NO;
     FMPSDDebug(@"rle composite: %d", rle);
     
     if (rle) {
-        uint32 nLines = _height * _channels;
-        uint16 *lineLengths = malloc(sizeof(uint16) * nLines);
+        uint32_t nLines = _height * _channels;
+        uint16_t *lineLengths = malloc(sizeof(uint16_t) * nLines);
         
-        for (uint32 i = 0; i < nLines; i++) {
+        for (uint32_t i = 0; i < nLines; i++) {
             lineLengths[i] = [stream readInt16];
         }
         
@@ -435,118 +455,129 @@ BOOL FMPSDPrintDebugInfo = NO;
 
 - (void)writeToFile:(NSURL*)fileURL {
     
-    _channels = 4; // we're always 4.  sorry about that!
-    
-    FMPSDStream *stream = [FMPSDStream PSDStreamForWritingToURL:fileURL];
-    
-    [stream writeInt32:'8BPS']; // sig
-    [stream writeInt16:1]; // version
-    
-    // now we write 6 bytes of reserved nothing.
-    [stream writeInt32:0];
-    [stream writeInt16:0];
-    
-    [stream writeInt16:_channels]; // channels
-    [stream writeInt32:_height]; // height
-    [stream writeInt32:_width]; // width
-    
-    [stream writeInt16:_depth];
-    [stream writeInt16:FMPSDRGBMode];
-    
-    [stream writeInt32:0]; // colormap data.
-    //[stream writeDataWithLengthHeader:_colormapData];
-    
-    {   // time for the image resource blocks!
-        FMPSDStream *resourceInfoStream = [FMPSDStream PSDStreamForWritingToMemory];
+    @autoreleasepool {
+        _channels = 4; // we're always 4.  sorry about that!
         
-        [resourceInfoStream writeInt32:'8BIM'];
-        [resourceInfoStream writeInt16:1039]; // ICC Profile
-        [resourceInfoStream writePascalString:@"" withPadding:2];
-        [resourceInfoStream writeDataWithLengthHeader:[self iccProfile]];
+        FMPSDStream *stream = [FMPSDStream PSDStreamForWritingToURL:fileURL];
         
-        [resourceInfoStream writeInt32:'8BIM'];
-        [resourceInfoStream writeInt16:1005]; // resolution info.
-        [resourceInfoStream writePascalString:@"" withPadding:2];
-        [resourceInfoStream writeDataWithLengthHeader:[self resoultionData]];
+        [stream writeInt32:'8BPS']; // sig
+        [stream writeInt16:1]; // version
         
-        [resourceInfoStream writeInt32:'8BIM'];
-        [resourceInfoStream writeInt16:1026]; // layer group info
-        [resourceInfoStream writePascalString:@"" withPadding:2];
+        // now we write 6 bytes of reserved nothing.
+        [stream writeInt32:0];
+        [stream writeInt16:0];
         
-        FMPSDStream *groupInfo = [FMPSDStream PSDStreamForWritingToMemory];
+        [stream writeInt16:_channels]; // channels
+        [stream writeInt32:_height]; // height
+        [stream writeInt32:_width]; // width
         
-        for (int i = 0; i < [_baseLayerGroup countOfSubLayers]; i++) {
-            [groupInfo writeInt16:0];
-        }
-        [resourceInfoStream writeDataWithLengthHeader:[groupInfo outputData]];
+        [stream writeInt16:_depth];
+        [stream writeInt16:FMPSDRGBMode];
         
-        [stream writeDataWithLengthHeader:[resourceInfoStream outputData]];
-    }
-    
-    
-    // Layer and Mask Information Section
-    
-    FMPSDStream *layerAndGlobalMaskStream = [FMPSDStream PSDStreamForWritingToMemory];
-    
-    {
-        FMPSDStream *layerInfoStream = [FMPSDStream PSDStreamForWritingToMemory];
+        [stream writeInt32:0]; // colormap data.
+        //[stream writeDataWithLengthHeader:_colormapData];
         
-        // the number of layers.
-        [layerInfoStream writeSInt16:([_baseLayerGroup countOfSubLayers] * -1)];
-        
-        for (FMPSDLayer *layer in [[_baseLayerGroup layers] reverseObjectEnumerator]) {
-            [layer writeLayerInfoToStream:layerInfoStream];
+        {   // time for the image resource blocks!
+            FMPSDStream *resourceInfoStream = [FMPSDStream PSDStreamForWritingToMemory];
+            
+            [resourceInfoStream writeInt32:'8BIM'];
+            [resourceInfoStream writeInt16:1039]; // ICC Profile
+            [resourceInfoStream writePascalString:@"" withPadding:2];
+            [resourceInfoStream writeDataWithLengthHeader:[self iccProfile]];
+            
+            [resourceInfoStream writeInt32:'8BIM'];
+            [resourceInfoStream writeInt16:1005]; // resolution info.
+            [resourceInfoStream writePascalString:@"" withPadding:2];
+            [resourceInfoStream writeDataWithLengthHeader:[self resoultionData]];
+            
+            [resourceInfoStream writeInt32:'8BIM'];
+            [resourceInfoStream writeInt16:1026]; // layer group info
+            [resourceInfoStream writePascalString:@"" withPadding:2];
+            
+            FMPSDStream *groupInfo = [FMPSDStream PSDStreamForWritingToMemory];
+            
+            for (int i = 0; i < [_baseLayerGroup countOfSubLayers]; i++) {
+                [groupInfo writeInt16:0];
+            }
+            [resourceInfoStream writeDataWithLengthHeader:[groupInfo outputData]];
+            
+            [stream writeDataWithLengthHeader:[resourceInfoStream outputData]];
         }
         
-        for (FMPSDLayer *layer in [[_baseLayerGroup layers] reverseObjectEnumerator]) {
-            [layer writeImageDataToStream:layerInfoStream];
+        
+        // Layer and Mask Information Section
+        
+        FMPSDStream *layerAndGlobalMaskStream = [FMPSDStream PSDStreamForWritingToMemory];
+        
+        {
+            FMPSDStream *layerInfoStream = [FMPSDStream PSDStreamForWritingToMemory];
+            
+            // the number of layers.
+            [layerInfoStream writeSInt16:([_baseLayerGroup countOfSubLayers] * -1)];
+            
+            for (FMPSDLayer *layer in [[_baseLayerGroup layers] reverseObjectEnumerator]) {
+                @autoreleasepool {
+                    [layer writeLayerInfoToStream:layerInfoStream];
+                }
+            }
+            
+            for (FMPSDLayer *layer in [[_baseLayerGroup layers] reverseObjectEnumerator]) {
+                @autoreleasepool {
+                    [layer writeImageDataToStream:layerInfoStream];
+                }
+            }
+            
+            // Length of the layers info section is rounded up to a multiple of 2.
+            while ([[layerInfoStream outputData] length] % 2 != 0) {
+                [layerInfoStream writeInt8:0];
+            }
+            
+            [layerAndGlobalMaskStream writeDataWithLengthHeader:[layerInfoStream outputData]];
         }
         
-        // Length of the layers info section is rounded up to a multiple of 2.
-        while ([[layerInfoStream outputData] length] % 2 != 0) {
-            [layerInfoStream writeInt8:0];
+        [layerAndGlobalMaskStream writeInt32:0]; // Length of global layer mask info section.
+        //[layerAndGlobalMaskStream writeInt32:0]; // apple seems to get away with this.
+        
+        /*
+         [layerAndGlobalMaskStream writeInt16:0];  // Overlay color space (undocumented).
+         [layerAndGlobalMaskStream writeInt64:0]; // 4 * 2 byte color components
+         [layerAndGlobalMaskStream writeInt16:100]; // Opacity. 0 = transparent, 100 = opaque.
+         [layerAndGlobalMaskStream writeInt8:0]; // Kind.
+         [layerAndGlobalMaskStream writeInt8:0]; // filler
+         */
+        
+        [stream writeDataWithLengthHeader:[layerAndGlobalMaskStream outputData]];
+        layerAndGlobalMaskStream = nil;
+        
+        FMPSDLayer *composite = [FMPSDLayer layerWithSize:CGSizeMake(_width, _height) psd:self];
+        
+        if (_savingCompositeImageRef) {
+            [composite setImage:_savingCompositeImageRef];
+        }
+        else {
+            @autoreleasepool {
+                CIImage *img = [self compositeCIImage];
+                
+#if TARGET_OS_IPHONE
+                // [[CIContext alloc] init] doesn't work fine on iOS - we get only last image from the chain
+                CIContext *ctx = [CIContext contextWithOptions:0];
+#else
+                CIContext *ctx = [[CIContext alloc] init];
+#endif
+                CGImageRef ref = [ctx createCGImage:img fromRect:CGRectMake(0, 0, _width, _height)];
+                
+                [composite setImage:ref];
+                
+                CGImageRelease(ref);
+            }
         }
         
-        [layerAndGlobalMaskStream writeDataWithLengthHeader:[layerInfoStream outputData]];
+        [composite setIsComposite:YES];
+        [composite writeImageDataToStream:stream];
+        [composite setImage:NULL];
+        
+        [stream close];
     }
-    
-    [layerAndGlobalMaskStream writeInt32:0]; // Length of global layer mask info section.
-    //[layerAndGlobalMaskStream writeInt32:0]; // apple seems to get away with this.
-    
-    /*
-    [layerAndGlobalMaskStream writeInt16:0];  // Overlay color space (undocumented).
-    [layerAndGlobalMaskStream writeInt64:0]; // 4 * 2 byte color components
-    [layerAndGlobalMaskStream writeInt16:100]; // Opacity. 0 = transparent, 100 = opaque.
-    [layerAndGlobalMaskStream writeInt8:0]; // Kind.
-    [layerAndGlobalMaskStream writeInt8:0]; // filler
-    */
-    
-    [stream writeDataWithLengthHeader:[layerAndGlobalMaskStream outputData]];
-    layerAndGlobalMaskStream = nil;
-    
-    FMPSDLayer *composite = [FMPSDLayer layerWithSize:NSMakeSize(_width, _height) psd:self];
-    
-    if (_savingCompositeImageRef) {
-        [composite setImage:_savingCompositeImageRef];
-    }
-    else {
-        CIImage *img = [self compositeCIImage];
-        
-        CIContext *ctx = [[CIContext alloc] init];
-        
-        CGImageRef ref = [ctx createCGImage:img fromRect:CGRectMake(0, 0, _width, _height)];
-        
-        [composite setImage:ref];
-        
-        CGImageRelease(ref);
-    }
-    
-    [stream writeInt16:0];
-    [composite setIsComposite:YES];
-    [composite writeImageDataToStream:stream];
-    
-    [stream close];
-    
 }
 
 - (uint16_t)version {
@@ -572,7 +603,7 @@ BOOL FMPSDPrintDebugInfo = NO;
 
 - (CIImage*)compositeCIImage {
     
-    CIImage *i = [[CIImage emptyImage] imageByCroppingToRect:NSMakeRect(0, 0, _width, _height)];
+    CIImage *i = [[CIImage emptyImage] imageByCroppingToRect:CGRectMake(0, 0, _width, _height)];
     
     
     CIFilter *sourceOver = [CIFilter filterWithName:@"CISourceOverCompositing"];
@@ -606,7 +637,7 @@ BOOL FMPSDPrintDebugInfo = NO;
     NSLog(@"width: %d", [psd width]);
     NSLog(@"height: %d", [psd height]);
     NSLog(@"version: %d", [psd version]);
-    NSLog(@"first group layer count: %ld", [[[psd baseLayerGroup] layers] count]);
+    NSLog(@"first group layer count: %ld", (unsigned long)[[[psd baseLayerGroup] layers] count]);
     
 }
 

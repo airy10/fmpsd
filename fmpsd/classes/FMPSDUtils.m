@@ -8,7 +8,13 @@
 
 #import "FMPSD.h"
 #import "FMPSDUtils.h"
-#import <QuartzCore/QuartzCore.h>
+#if !TARGET_OS_IPHONE
+#import <Cocoa/Cocoa.h>
+#else
+#import <ImageIO/ImageIO.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <CoreImage/CoreImage.h>
+#endif
 
 @implementation FMPSDUtils
 
@@ -21,7 +27,7 @@
 }
 
 
-+ (void)writeComposite:(CIImage*)img colorSpace:(CGColorSpaceRef)cs withBounds:(NSRect)bounds toPath:(NSString*)path {
++ (void)writeComposite:(CIImage*)img colorSpace:(CGColorSpaceRef)cs withBounds:(CGRect)bounds toPath:(NSString*)path {
     
     //kCIImageColorSpace
     
@@ -33,7 +39,11 @@
                                            [NSNumber numberWithBool:YES], kCIContextUseSoftwareRenderer,
                                            nil];
     
+#if TARGET_OS_IPHONE
+    CIContext *ctx = [CIContext contextWithOptions:contextOptions];
+#else
     CIContext *ctx = [CIContext contextWithCGContext:nil options:contextOptions];
+#endif
     CGImageRef ref = [ctx createCGImage:img fromRect:bounds];
     FMAssert(ref);
     
@@ -53,6 +63,7 @@
     
 }
 
+#if !TARGET_OS_IPHONE
 + (BOOL)compareComposite:(FMPSD*)psd toImageAtURL:(NSURL*)pathURL tolerance:(int)tolerance {
     
     if (![psd isKindOfClass:[FMPSD class]]) {
@@ -64,7 +75,7 @@
     
     NSImage *compareTo = [[NSImage alloc] initByReferencingURL:pathURL];
     NSBitmapImageRep *rep = [[compareTo representations] lastObject];
-    NSRect r = NSMakeRect(0, 0, [rep pixelsWide], [rep pixelsHigh]);
+    CGRect r = CGRectMake(0, 0, [rep pixelsWide], [rep pixelsHigh]);
     
     NSString *tempPath = [NSString stringWithFormat:@"/private/tmp/%@.tiff", [self stringWithUUID]];
     
@@ -106,8 +117,8 @@
     for (x = 0; x < size.width; x++) {
         
         for (y = 0; y < size.height; y++) {
-            FMPSDPixel a = FMPSDPixelForPointInContext(ctxA, NSMakePoint(x, y));
-            FMPSDPixel b = FMPSDPixelForPointInContext(ctxB, NSMakePoint(x, y));
+            FMPSDPixel a = FMPSDPixelForPointInContext(ctxA, CGPointMake(x, y));
+            FMPSDPixel b = FMPSDPixelForPointInContext(ctxB, CGPointMake(x, y));
             
             int keyA = a.a;
             int keyR = a.r;
@@ -160,19 +171,20 @@ cleanup:
     
     return YES;
 }
+#endif
 
 @end
 
-NSRect FMPSDCGImageGetRect(CGImageRef img) {
+CGRect FMPSDCGImageGetRect(CGImageRef img) {
     if (!img) {
-        return NSZeroRect;
+        return CGRectZero;
     }
     
-    return NSMakeRect(0, 0, CGImageGetWidth(img), CGImageGetHeight(img));
+    return CGRectMake(0, 0, CGImageGetWidth(img), CGImageGetHeight(img));
 }
 
 
-CGContextRef FMPSDCGBitmapContextCreate(NSSize size, CGColorSpaceRef cs) {
+CGContextRef FMPSDCGBitmapContextCreate(CGSize size, CGColorSpaceRef cs) {
     
     FMAssert(cs);
     
@@ -183,8 +195,8 @@ CGContextRef FMPSDCGBitmapContextCreate(NSSize size, CGColorSpaceRef cs) {
     return context;
 }
 
-FMPSDPixel *FMPSDPixelAddressForPointInLocalContext(CGContextRef context, NSPoint p);
-FMPSDPixel *FMPSDPixelAddressForPointInLocalContext(CGContextRef context, NSPoint p) {
+FMPSDPixel *FMPSDPixelAddressForPointInLocalContext(CGContextRef context, CGPoint p);
+FMPSDPixel *FMPSDPixelAddressForPointInLocalContext(CGContextRef context, CGPoint p) {
     
     FMPSDPixel *basePtr   = CGBitmapContextGetData(context);
     
@@ -207,7 +219,7 @@ FMPSDPixel *FMPSDPixelAddressForPointInLocalContext(CGContextRef context, NSPoin
     return (FMPSDPixel *)(basePtr + pt);
 }
 
-FMPSDPixel FMPSDPixelForPointInContext(CGContextRef context, NSPoint point) {
+FMPSDPixel FMPSDPixelForPointInContext(CGContextRef context, CGPoint point) {
     
     FMAssert(CGBitmapContextGetData(context));
     

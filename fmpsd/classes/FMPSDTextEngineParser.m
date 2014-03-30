@@ -13,24 +13,24 @@
 @property (strong) NSData *engineData;
 @property (assign) NSInteger loc;
 @property (assign) NSInteger len;
-@property (assign) uint8 *base;
+@property (assign) uint8_t *base;
 @property (strong) NSMutableAttributedString *attString;
 @end
 
 @implementation FMPSDTextEngineParser
 
-- (uint8)nextChar {
+- (uint8_t)nextChar {
     char c = _base[_loc];
     _loc++;
     return c;
 }
 
-- (uint16)nextShort {
+- (uint16_t)nextShort {
     
-    uint16 *u = (uint16*)&(_base[_loc]);
+    uint16_t *u = (uint16_t*)&(_base[_loc]);
     
-    //uint16 c = CFSwapInt16HostToBig(u[0]);
-    uint16 c = CFSwapInt16BigToHost(u[0]);
+    //uint16_t c = CFSwapInt16HostToBig(u[0]);
+    uint16_t c = CFSwapInt16BigToHost(u[0]);
     _loc += 2;
     
     return c;
@@ -38,10 +38,12 @@
 
 - (NSString*)parseTextTag {
     
-    uint8 op = [self nextChar];
+    uint8_t op = [self nextChar];
+    (void)op; // make the compiler happy about unused var
     FMAssert(op == '(');
     
-    uint16 bom = [self nextShort];
+    uint16_t bom = [self nextShort];
+    (void)bom; // make the compiler happy about unused var
     FMAssert(bom == 0xfeff);
     
     NSMutableString *ret = [NSMutableString string];
@@ -49,18 +51,18 @@
     // Th\is is\r(a) text läyeז.
     while (_loc < _len) {
         
-        uint16 s = [self nextShort];
+        uint16_t s = [self nextShort];
         
         // debug(@"s: %C / %d", s, s);
         
         if (s == '\\') {
             
-            uint8 asc = [self nextChar];
+            uint8_t asc = [self nextChar];
             [ret appendFormat:@"%c", asc];
         }
         else if (s == 0x000d/*\r*/) {
             
-            uint8 cp = [self nextChar];
+            uint8_t cp = [self nextChar];
             
             if (cp == ')') {
                 // we're done.
@@ -117,7 +119,7 @@
     }
     
     
-    uint8 *startS =_base + startLoc;
+    uint8_t *startS =_base + startLoc;
     
     NSString *ret = [[NSString alloc] initWithBytes:startS length:endLoc-startLoc encoding:NSUTF8StringEncoding];
     
@@ -152,7 +154,7 @@
         return nil;
     }
     
-    uint8 *startS =_base + startTagLoc;
+    uint8_t *startS =_base + startTagLoc;
     
     NSString *ret = [[NSString alloc] initWithBytes:startS length:endTagLoc-startTagLoc encoding:NSUTF8StringEncoding];
     
@@ -241,6 +243,8 @@
     
     [self scanToChar:'<'];
     char c = [self nextChar];
+    (void)c; // make the compiler happy about unused var
+    
     FMAssert(c == '<');
     
 }
@@ -248,6 +252,8 @@
 - (void)scanToDoubleGreaterThan {
     [self scanToChar:'>'];
     char c = [self nextChar];
+    (void)c; // make the compiler happy about unused var
+
     FMAssert(c == '>');
 }
 
@@ -263,7 +269,8 @@
     NSMutableDictionary *currentDict = [NSMutableDictionary dictionary];
     
     char c = [self nextChar];
-    
+    (void)c; // make the compiler happy about unused var
+
     FMAssert(c == '[');
     
     NSString *restOfLine = [self scanToEndOfLine];
@@ -372,6 +379,8 @@
     // dicts start out with a << on their own line, and end with a >>?
     
     NSString *startB = [self scanNextWord];
+    (void)startB; // make the compiler happy about unused var
+
     FMAssert([startB isEqualToString:@"<<"]);
     
     NSString *key = [self scanNextWord];
@@ -460,7 +469,7 @@
     _len = [engineData length];
     _loc = 0;
     
-    _base = (uint8 *)[engineData bytes];
+    _base = (uint8_t *)[engineData bytes];
     
     
     NSDictionary *d = [self parseDictionaryWithName:@"Base"];

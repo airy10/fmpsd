@@ -21,7 +21,7 @@ static CIKernel *FMPSDAlphaFilterKernel = nil;
 
 - (id)init {
     if (FMPSDAlphaFilterKernel == nil) {
-        
+#if !TARGET_OS_IPHONE
         NSString *code = @"\
                           kernel vec4 alf(sampler src, float a) {\n\
                           vec4 result = unpremultiply(sample(src, samplerCoord(src)));\n\
@@ -32,7 +32,8 @@ static CIKernel *FMPSDAlphaFilterKernel = nil;
         NSArray *kernels = [CIKernel kernelsWithString:code];
         
         FMPSDAlphaFilterKernel = [kernels objectAtIndex:0];
-    }    
+#endif
+    }
     return [super init];
 }
 
@@ -45,9 +46,13 @@ static CIKernel *FMPSDAlphaFilterKernel = nil;
 }
 
 - (CIImage *)outputImage {
+#if TARGET_OS_IPHONE
+    return _inputImage;
+#else
     CISampler *src = [CISampler samplerWithImage:_inputImage];
     
     return [self apply:FMPSDAlphaFilterKernel, src, _alpha, nil];
+#endif
 }
 
 

@@ -8,6 +8,48 @@
 
 /* Begin PBXBuildFile section */
 		467BE765182B258D008D7645 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 467BE764182B258D008D7645 /* Accelerate.framework */; };
+		4909859818E810C700927245 /* Tests in Resources */ = {isa = PBXBuildFile; fileRef = 4909859718E810C700927245 /* Tests */; };
+		4909859918E810C700927245 /* Tests in Resources */ = {isa = PBXBuildFile; fileRef = 4909859718E810C700927245 /* Tests */; };
+		4933706C18E5AA470057A222 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF682FA17724EB800478D7A /* Foundation.framework */; };
+		4933706E18E5AA470057A222 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4933706D18E5AA470057A222 /* CoreGraphics.framework */; };
+		4933706F18E5AA470057A222 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49DB27FD189B9C4B00D41D91 /* UIKit.framework */; };
+		4933707518E5AA470057A222 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4933707318E5AA470057A222 /* InfoPlist.strings */; };
+		4933707718E5AA470057A222 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933707618E5AA470057A222 /* main.m */; };
+		4933707B18E5AA470057A222 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933707A18E5AA470057A222 /* AppDelegate.m */; };
+		4933707E18E5AA470057A222 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4933707C18E5AA470057A222 /* Main_iPhone.storyboard */; };
+		4933708118E5AA470057A222 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4933707F18E5AA470057A222 /* Main_iPad.storyboard */; };
+		4933708418E5AA470057A222 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933708318E5AA470057A222 /* ViewController.m */; };
+		4933708618E5AA470057A222 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4933708518E5AA470057A222 /* Images.xcassets */; };
+		4933708C18E5AA470057A222 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49DB27FA189B9C4B00D41D91 /* XCTest.framework */; };
+		4933708D18E5AA470057A222 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF682FA17724EB800478D7A /* Foundation.framework */; };
+		4933708E18E5AA470057A222 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49DB27FD189B9C4B00D41D91 /* UIKit.framework */; };
+		4933709618E5AA470057A222 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4933709418E5AA470057A222 /* InfoPlist.strings */; };
+		4933709818E5AA470057A222 /* fmpsd_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4933709718E5AA470057A222 /* fmpsd_iOSTests.m */; };
+		4933709F18E5AA580057A222 /* FMPSD.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381A8177251AF009D82C3 /* FMPSD.m */; };
+		493370A018E5AA580057A222 /* FMPSDCIFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381AA177251AF009D82C3 /* FMPSDCIFilters.m */; };
+		493370A118E5AA580057A222 /* FMPSDDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381AC177251AF009D82C3 /* FMPSDDescriptor.m */; };
+		493370A218E5AA580057A222 /* FMPSDLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381AE177251AF009D82C3 /* FMPSDLayer.m */; };
+		493370A318E5AA580057A222 /* FMPSDStream.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381B0177251AF009D82C3 /* FMPSDStream.m */; };
+		493370A418E5AA580057A222 /* FMPSDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381B2177251AF009D82C3 /* FMPSDUtils.m */; };
+		493370A518E5AA580057A222 /* FMPSDTextEngineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB344A717BE3ECB00335650 /* FMPSDTextEngineParser.m */; };
+		49AC550D18E5B0F400C35EE4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC4381B917725E6C009D82C3 /* Cocoa.framework */; };
+		49AC551718E5B0F500C35EE4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 49AC551518E5B0F500C35EE4 /* InfoPlist.strings */; };
+		49AC551918E5B0F500C35EE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AC551818E5B0F500C35EE4 /* main.m */; };
+		49AC551D18E5B0F500C35EE4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 49AC551B18E5B0F500C35EE4 /* Credits.rtf */; };
+		49AC552018E5B0F500C35EE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AC551F18E5B0F500C35EE4 /* AppDelegate.m */; };
+		49AC552318E5B0F500C35EE4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49AC552118E5B0F500C35EE4 /* MainMenu.xib */; };
+		49AC552518E5B0F500C35EE4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49AC552418E5B0F500C35EE4 /* Images.xcassets */; };
+		49AC552B18E5B0F500C35EE4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49DB27FA189B9C4B00D41D91 /* XCTest.framework */; };
+		49AC552C18E5B0F500C35EE4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC4381B917725E6C009D82C3 /* Cocoa.framework */; };
+		49AC553418E5B0F500C35EE4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 49AC553218E5B0F500C35EE4 /* InfoPlist.strings */; };
+		49AC553618E5B0F500C35EE4 /* fmpsd_MacTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AC553518E5B0F500C35EE4 /* fmpsd_MacTests.m */; };
+		49AC554918E5B17300C35EE4 /* FMPSD.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381A8177251AF009D82C3 /* FMPSD.m */; };
+		49AC554A18E5B17400C35EE4 /* FMPSDCIFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381AA177251AF009D82C3 /* FMPSDCIFilters.m */; };
+		49AC554B18E5B17400C35EE4 /* FMPSDDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381AC177251AF009D82C3 /* FMPSDDescriptor.m */; };
+		49AC554C18E5B17400C35EE4 /* FMPSDLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381AE177251AF009D82C3 /* FMPSDLayer.m */; };
+		49AC554D18E5B17400C35EE4 /* FMPSDStream.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381B0177251AF009D82C3 /* FMPSDStream.m */; };
+		49AC554E18E5B17400C35EE4 /* FMPSDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381B2177251AF009D82C3 /* FMPSDUtils.m */; };
+		49AC554F18E5B17400C35EE4 /* FMPSDTextEngineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB344A717BE3ECB00335650 /* FMPSDTextEngineParser.m */; };
 		AEB344A817BE3ECB00335650 /* FMPSDTextEngineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB344A717BE3ECB00335650 /* FMPSDTextEngineParser.m */; };
 		CC4381B3177251AF009D82C3 /* FMPSD.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381A8177251AF009D82C3 /* FMPSD.m */; };
 		CC4381B4177251AF009D82C3 /* FMPSDCIFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4381AA177251AF009D82C3 /* FMPSDCIFilters.m */; };
@@ -21,6 +63,23 @@
 		CCF682FE17724EB800478D7A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF682FD17724EB800478D7A /* main.m */; };
 		CCF6830217724EB800478D7A /* fmpsd.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = CCF6830117724EB800478D7A /* fmpsd.1 */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4933708F18E5AA470057A222 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CCF682EF17724EB800478D7A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4933706A18E5AA470057A222;
+			remoteInfo = "fmpsd iOS";
+		};
+		49AC552D18E5B0F500C35EE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CCF682EF17724EB800478D7A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49AC550B18E5B0F400C35EE4;
+			remoteInfo = "fmpsd Mac";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		CCF682F517724EB800478D7A /* CopyFiles */ = {
@@ -37,6 +96,43 @@
 
 /* Begin PBXFileReference section */
 		467BE764182B258D008D7645 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		4909859718E810C700927245 /* Tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tests; sourceTree = "<group>"; };
+		4933706B18E5AA470057A222 /* fmpsd iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fmpsd iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4933706D18E5AA470057A222 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4933707218E5AA470057A222 /* fmpsd iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "fmpsd iOS-Info.plist"; sourceTree = "<group>"; };
+		4933707418E5AA470057A222 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4933707618E5AA470057A222 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4933707818E5AA470057A222 /* fmpsd iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fmpsd iOS-Prefix.pch"; sourceTree = "<group>"; };
+		4933707918E5AA470057A222 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4933707A18E5AA470057A222 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4933707D18E5AA470057A222 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		4933708018E5AA470057A222 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		4933708218E5AA470057A222 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		4933708318E5AA470057A222 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4933708518E5AA470057A222 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4933708B18E5AA470057A222 /* fmpsd iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fmpsd iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4933709318E5AA470057A222 /* fmpsd iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "fmpsd iOSTests-Info.plist"; sourceTree = "<group>"; };
+		4933709518E5AA470057A222 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4933709718E5AA470057A222 /* fmpsd_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fmpsd_iOSTests.m; sourceTree = "<group>"; };
+		49AC550C18E5B0F400C35EE4 /* fmpsd Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fmpsd Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49AC550F18E5B0F400C35EE4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		49AC551018E5B0F400C35EE4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		49AC551118E5B0F400C35EE4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		49AC551418E5B0F500C35EE4 /* fmpsd Mac-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "fmpsd Mac-Info.plist"; sourceTree = "<group>"; };
+		49AC551618E5B0F500C35EE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		49AC551818E5B0F500C35EE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		49AC551A18E5B0F500C35EE4 /* fmpsd Mac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fmpsd Mac-Prefix.pch"; sourceTree = "<group>"; };
+		49AC551C18E5B0F500C35EE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		49AC551E18E5B0F500C35EE4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		49AC551F18E5B0F500C35EE4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		49AC552218E5B0F500C35EE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		49AC552418E5B0F500C35EE4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		49AC552A18E5B0F500C35EE4 /* fmpsd MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fmpsd MacTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49AC553118E5B0F500C35EE4 /* fmpsd MacTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "fmpsd MacTests-Info.plist"; sourceTree = "<group>"; };
+		49AC553318E5B0F500C35EE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		49AC553518E5B0F500C35EE4 /* fmpsd_MacTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fmpsd_MacTests.m; sourceTree = "<group>"; };
+		49DB27FA189B9C4B00D41D91 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		49DB27FD189B9C4B00D41D91 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		AEB344A617BE3ECB00335650 /* FMPSDTextEngineParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMPSDTextEngineParser.h; path = classes/FMPSDTextEngineParser.h; sourceTree = "<group>"; };
 		AEB344A717BE3ECB00335650 /* FMPSDTextEngineParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMPSDTextEngineParser.m; path = classes/FMPSDTextEngineParser.m; sourceTree = "<group>"; };
 		CC4381A7177251AF009D82C3 /* FMPSD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMPSD.h; path = classes/FMPSD.h; sourceTree = "<group>"; };
@@ -61,6 +157,43 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4933706818E5AA470057A222 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4933706E18E5AA470057A222 /* CoreGraphics.framework in Frameworks */,
+				4933706F18E5AA470057A222 /* UIKit.framework in Frameworks */,
+				4933706C18E5AA470057A222 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4933708818E5AA470057A222 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4933708C18E5AA470057A222 /* XCTest.framework in Frameworks */,
+				4933708E18E5AA470057A222 /* UIKit.framework in Frameworks */,
+				4933708D18E5AA470057A222 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49AC550918E5B0F400C35EE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AC550D18E5B0F400C35EE4 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49AC552718E5B0F500C35EE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AC552C18E5B0F500C35EE4 /* Cocoa.framework in Frameworks */,
+				49AC552B18E5B0F500C35EE4 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CCF682F417724EB800478D7A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -75,10 +208,111 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4933707018E5AA470057A222 /* fmpsd iOS */ = {
+			isa = PBXGroup;
+			children = (
+				4933707918E5AA470057A222 /* AppDelegate.h */,
+				4933707A18E5AA470057A222 /* AppDelegate.m */,
+				4933707C18E5AA470057A222 /* Main_iPhone.storyboard */,
+				4933707F18E5AA470057A222 /* Main_iPad.storyboard */,
+				4933708218E5AA470057A222 /* ViewController.h */,
+				4933708318E5AA470057A222 /* ViewController.m */,
+				4933708518E5AA470057A222 /* Images.xcassets */,
+				4933707118E5AA470057A222 /* Supporting Files */,
+			);
+			path = "fmpsd iOS";
+			sourceTree = "<group>";
+		};
+		4933707118E5AA470057A222 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4933707218E5AA470057A222 /* fmpsd iOS-Info.plist */,
+				4933707318E5AA470057A222 /* InfoPlist.strings */,
+				4933707618E5AA470057A222 /* main.m */,
+				4933707818E5AA470057A222 /* fmpsd iOS-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4933709118E5AA470057A222 /* fmpsd iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				4933709718E5AA470057A222 /* fmpsd_iOSTests.m */,
+				4933709218E5AA470057A222 /* Supporting Files */,
+			);
+			path = "fmpsd iOSTests";
+			sourceTree = "<group>";
+		};
+		4933709218E5AA470057A222 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4933709318E5AA470057A222 /* fmpsd iOSTests-Info.plist */,
+				4933709418E5AA470057A222 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		49AC550E18E5B0F400C35EE4 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				49AC550F18E5B0F400C35EE4 /* AppKit.framework */,
+				49AC551018E5B0F400C35EE4 /* CoreData.framework */,
+				49AC551118E5B0F400C35EE4 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		49AC551218E5B0F400C35EE4 /* fmpsd Mac */ = {
+			isa = PBXGroup;
+			children = (
+				49AC551E18E5B0F500C35EE4 /* AppDelegate.h */,
+				49AC551F18E5B0F500C35EE4 /* AppDelegate.m */,
+				49AC552118E5B0F500C35EE4 /* MainMenu.xib */,
+				49AC552418E5B0F500C35EE4 /* Images.xcassets */,
+				49AC551318E5B0F500C35EE4 /* Supporting Files */,
+			);
+			path = "fmpsd Mac";
+			sourceTree = "<group>";
+		};
+		49AC551318E5B0F500C35EE4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				49AC551418E5B0F500C35EE4 /* fmpsd Mac-Info.plist */,
+				49AC551518E5B0F500C35EE4 /* InfoPlist.strings */,
+				49AC551818E5B0F500C35EE4 /* main.m */,
+				49AC551A18E5B0F500C35EE4 /* fmpsd Mac-Prefix.pch */,
+				49AC551B18E5B0F500C35EE4 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		49AC552F18E5B0F500C35EE4 /* fmpsd MacTests */ = {
+			isa = PBXGroup;
+			children = (
+				49AC553518E5B0F500C35EE4 /* fmpsd_MacTests.m */,
+				49AC553018E5B0F500C35EE4 /* Supporting Files */,
+			);
+			path = "fmpsd MacTests";
+			sourceTree = "<group>";
+		};
+		49AC553018E5B0F500C35EE4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				49AC553118E5B0F500C35EE4 /* fmpsd MacTests-Info.plist */,
+				49AC553218E5B0F500C35EE4 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		CCF682EE17724EB800478D7A = {
 			isa = PBXGroup;
 			children = (
 				CCF682FC17724EB800478D7A /* fmpsd */,
+				4933707018E5AA470057A222 /* fmpsd iOS */,
+				4933709118E5AA470057A222 /* fmpsd iOSTests */,
+				49AC551218E5B0F400C35EE4 /* fmpsd Mac */,
+				49AC552F18E5B0F500C35EE4 /* fmpsd MacTests */,
+				4909859718E810C700927245 /* Tests */,
 				CCF682F917724EB800478D7A /* Frameworks */,
 				CCF682F817724EB800478D7A /* Products */,
 			);
@@ -88,6 +322,10 @@
 			isa = PBXGroup;
 			children = (
 				CCF682F717724EB800478D7A /* fmpsd */,
+				4933706B18E5AA470057A222 /* fmpsd iOS.app */,
+				4933708B18E5AA470057A222 /* fmpsd iOSTests.xctest */,
+				49AC550C18E5B0F400C35EE4 /* fmpsd Mac.app */,
+				49AC552A18E5B0F500C35EE4 /* fmpsd MacTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +337,10 @@
 				CC4381BB17725E78009D82C3 /* QuartzCore.framework */,
 				CC4381B917725E6C009D82C3 /* Cocoa.framework */,
 				CCF682FA17724EB800478D7A /* Foundation.framework */,
+				49DB27FA189B9C4B00D41D91 /* XCTest.framework */,
+				49DB27FD189B9C4B00D41D91 /* UIKit.framework */,
+				4933706D18E5AA470057A222 /* CoreGraphics.framework */,
+				49AC550E18E5B0F400C35EE4 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -138,6 +380,76 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4933706A18E5AA470057A222 /* fmpsd iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4933709918E5AA470057A222 /* Build configuration list for PBXNativeTarget "fmpsd iOS" */;
+			buildPhases = (
+				4933706718E5AA470057A222 /* Sources */,
+				4933706818E5AA470057A222 /* Frameworks */,
+				4933706918E5AA470057A222 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "fmpsd iOS";
+			productName = "fmpsd iOS";
+			productReference = 4933706B18E5AA470057A222 /* fmpsd iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4933708A18E5AA470057A222 /* fmpsd iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4933709C18E5AA470057A222 /* Build configuration list for PBXNativeTarget "fmpsd iOSTests" */;
+			buildPhases = (
+				4933708718E5AA470057A222 /* Sources */,
+				4933708818E5AA470057A222 /* Frameworks */,
+				4933708918E5AA470057A222 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4933709018E5AA470057A222 /* PBXTargetDependency */,
+			);
+			name = "fmpsd iOSTests";
+			productName = "fmpsd iOSTests";
+			productReference = 4933708B18E5AA470057A222 /* fmpsd iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		49AC550B18E5B0F400C35EE4 /* fmpsd Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49AC553718E5B0F500C35EE4 /* Build configuration list for PBXNativeTarget "fmpsd Mac" */;
+			buildPhases = (
+				49AC550818E5B0F400C35EE4 /* Sources */,
+				49AC550918E5B0F400C35EE4 /* Frameworks */,
+				49AC550A18E5B0F400C35EE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "fmpsd Mac";
+			productName = "fmpsd Mac";
+			productReference = 49AC550C18E5B0F400C35EE4 /* fmpsd Mac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		49AC552918E5B0F500C35EE4 /* fmpsd MacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49AC553A18E5B0F500C35EE4 /* Build configuration list for PBXNativeTarget "fmpsd MacTests" */;
+			buildPhases = (
+				49AC552618E5B0F500C35EE4 /* Sources */,
+				49AC552718E5B0F500C35EE4 /* Frameworks */,
+				49AC552818E5B0F500C35EE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49AC552E18E5B0F500C35EE4 /* PBXTargetDependency */,
+			);
+			name = "fmpsd MacTests";
+			productName = "fmpsd MacTests";
+			productReference = 49AC552A18E5B0F500C35EE4 /* fmpsd MacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		CCF682F617724EB800478D7A /* fmpsd */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CCF6830517724EB800478D7A /* Build configuration list for PBXNativeTarget "fmpsd" */;
@@ -161,8 +473,16 @@
 		CCF682EF17724EB800478D7A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Flying Meat Inc.";
+				TargetAttributes = {
+					4933708A18E5AA470057A222 = {
+						TestTargetID = 4933706A18E5AA470057A222;
+					};
+					49AC552918E5B0F500C35EE4 = {
+						TestTargetID = 4933706A18E5AA470057A222;
+					};
+				};
 			};
 			buildConfigurationList = CCF682F217724EB800478D7A /* Build configuration list for PBXProject "fmpsd" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -170,6 +490,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CCF682EE17724EB800478D7A;
 			productRefGroup = CCF682F817724EB800478D7A /* Products */;
@@ -177,11 +498,107 @@
 			projectRoot = "";
 			targets = (
 				CCF682F617724EB800478D7A /* fmpsd */,
+				4933706A18E5AA470057A222 /* fmpsd iOS */,
+				4933708A18E5AA470057A222 /* fmpsd iOSTests */,
+				49AC550B18E5B0F400C35EE4 /* fmpsd Mac */,
+				49AC552918E5B0F500C35EE4 /* fmpsd MacTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		4933706918E5AA470057A222 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4933708118E5AA470057A222 /* Main_iPad.storyboard in Resources */,
+				4933708618E5AA470057A222 /* Images.xcassets in Resources */,
+				4933707E18E5AA470057A222 /* Main_iPhone.storyboard in Resources */,
+				4933707518E5AA470057A222 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4933708918E5AA470057A222 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4909859818E810C700927245 /* Tests in Resources */,
+				4933709618E5AA470057A222 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49AC550A18E5B0F400C35EE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AC551718E5B0F500C35EE4 /* InfoPlist.strings in Resources */,
+				49AC552518E5B0F500C35EE4 /* Images.xcassets in Resources */,
+				49AC551D18E5B0F500C35EE4 /* Credits.rtf in Resources */,
+				49AC552318E5B0F500C35EE4 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49AC552818E5B0F500C35EE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4909859918E810C700927245 /* Tests in Resources */,
+				49AC553418E5B0F500C35EE4 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		4933706718E5AA470057A222 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4933709F18E5AA580057A222 /* FMPSD.m in Sources */,
+				4933708418E5AA470057A222 /* ViewController.m in Sources */,
+				493370A218E5AA580057A222 /* FMPSDLayer.m in Sources */,
+				4933707B18E5AA470057A222 /* AppDelegate.m in Sources */,
+				493370A418E5AA580057A222 /* FMPSDUtils.m in Sources */,
+				493370A118E5AA580057A222 /* FMPSDDescriptor.m in Sources */,
+				4933707718E5AA470057A222 /* main.m in Sources */,
+				493370A318E5AA580057A222 /* FMPSDStream.m in Sources */,
+				493370A518E5AA580057A222 /* FMPSDTextEngineParser.m in Sources */,
+				493370A018E5AA580057A222 /* FMPSDCIFilters.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4933708718E5AA470057A222 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4933709818E5AA470057A222 /* fmpsd_iOSTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49AC550818E5B0F400C35EE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AC554918E5B17300C35EE4 /* FMPSD.m in Sources */,
+				49AC554B18E5B17400C35EE4 /* FMPSDDescriptor.m in Sources */,
+				49AC554E18E5B17400C35EE4 /* FMPSDUtils.m in Sources */,
+				49AC552018E5B0F500C35EE4 /* AppDelegate.m in Sources */,
+				49AC554D18E5B17400C35EE4 /* FMPSDStream.m in Sources */,
+				49AC554A18E5B17400C35EE4 /* FMPSDCIFilters.m in Sources */,
+				49AC554C18E5B17400C35EE4 /* FMPSDLayer.m in Sources */,
+				49AC554F18E5B17400C35EE4 /* FMPSDTextEngineParser.m in Sources */,
+				49AC551918E5B0F500C35EE4 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49AC552618E5B0F500C35EE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AC553618E5B0F500C35EE4 /* fmpsd_MacTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CCF682F317724EB800478D7A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -199,12 +616,319 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4933709018E5AA470057A222 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4933706A18E5AA470057A222 /* fmpsd iOS */;
+			targetProxy = 4933708F18E5AA470057A222 /* PBXContainerItemProxy */;
+		};
+		49AC552E18E5B0F500C35EE4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49AC550B18E5B0F400C35EE4 /* fmpsd Mac */;
+			targetProxy = 49AC552D18E5B0F500C35EE4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4933707318E5AA470057A222 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4933707418E5AA470057A222 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4933707C18E5AA470057A222 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4933707D18E5AA470057A222 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		4933707F18E5AA470057A222 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4933708018E5AA470057A222 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		4933709418E5AA470057A222 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4933709518E5AA470057A222 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		49AC551518E5B0F500C35EE4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49AC551618E5B0F500C35EE4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		49AC551B18E5B0F500C35EE4 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49AC551C18E5B0F500C35EE4 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		49AC552118E5B0F500C35EE4 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49AC552218E5B0F500C35EE4 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		49AC553218E5B0F500C35EE4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49AC553318E5B0F500C35EE4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		4933709A18E5AA470057A222 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd iOS/fmpsd iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd iOS/fmpsd iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4933709B18E5AA470057A222 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd iOS/fmpsd iOS-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd iOS/fmpsd iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		4933709D18E5AA470057A222 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fmpsd iOS.app/fmpsd iOS";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd iOS/fmpsd iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd iOSTests/fmpsd iOSTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		4933709E18E5AA470057A222 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fmpsd iOS.app/fmpsd iOS";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd iOS/fmpsd iOS-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd iOSTests/fmpsd iOSTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		49AC553818E5B0F500C35EE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd Mac/fmpsd Mac-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd Mac/fmpsd Mac-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		49AC553918E5B0F500C35EE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd Mac/fmpsd Mac-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd Mac/fmpsd Mac-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		49AC553B18E5B0F500C35EE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fmpsd Mac.app/Contents/MacOS/fmpsd Mac";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd Mac/fmpsd Mac-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd MacTests/fmpsd MacTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		49AC553C18E5B0F500C35EE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/fmpsd Mac.app/Contents/MacOS/fmpsd Mac";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fmpsd Mac/fmpsd Mac-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "fmpsd MacTests/fmpsd MacTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 		CCF6830317724EB800478D7A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -237,7 +961,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -280,6 +1003,42 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4933709918E5AA470057A222 /* Build configuration list for PBXNativeTarget "fmpsd iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4933709A18E5AA470057A222 /* Debug */,
+				4933709B18E5AA470057A222 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4933709C18E5AA470057A222 /* Build configuration list for PBXNativeTarget "fmpsd iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4933709D18E5AA470057A222 /* Debug */,
+				4933709E18E5AA470057A222 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49AC553718E5B0F500C35EE4 /* Build configuration list for PBXNativeTarget "fmpsd Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49AC553818E5B0F500C35EE4 /* Debug */,
+				49AC553918E5B0F500C35EE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49AC553A18E5B0F500C35EE4 /* Build configuration list for PBXNativeTarget "fmpsd MacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49AC553B18E5B0F500C35EE4 /* Debug */,
+				49AC553C18E5B0F500C35EE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CCF682F217724EB800478D7A /* Build configuration list for PBXProject "fmpsd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
