@@ -61,10 +61,7 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         j++;
         /* write it to the output buffer. */
         if (output)  memcpy(output, b, bdex);
-        if (output) output += bdex;
         j += bdex;
-
-        bdex = 0;
     }
     
     return j;
@@ -250,7 +247,7 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         image = [self.psd.delegate imageForLayer:self];
     }
     if (image == NULL) {
-        *rPlane = *gPlane = *bPlane = *mPlane = NULL;
+        *aPlane = *rPlane = *gPlane = *bPlane = *mPlane = NULL;
         return;
     }
 
@@ -270,8 +267,8 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     FMPSDPixel *c = CGBitmapContextGetData(ctx);
     
     // let's unpremultiply this guy - but not if we're a composite!
-    // (AA - it seems it always has to be done - from testing)
-    if (!_isComposite || 1) {
+    // let's unpremultiply this guy - but not if we're a composite!
+    if (!_isComposite) {
         
         // FIXME: delete the old unpremultiply code.
         //        Old code.  I'm keeping it around for a moment, just incase vImageUnpremultiplyData_RGBA8888 doesn't work out for some reason.
@@ -308,6 +305,26 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
             NSLog(@"FMPSDLayer writeImageDataToStream: vImageUnpremultiplyData_RGBA8888 err: %ld", err);
         }
 #endif
+    } else {
+        dispatch_queue_t queue = dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_HIGH);
+        
+        dispatch_apply(_height, queue, ^(size_t row) {
+            
+            FMPSDPixel *p = &c[_width * row];
+            
+            // Looks like PS is actually blending the colors to a white background, while keeping the
+            // alpha value
+            int32_t x = 0;
+            while (x < _width) {
+                unsigned long s1a = 0xff - p->a;
+                p->r = (uint8_t)(p->r + ((0xff * s1a + 0xff) >> 8));
+                p->g = (uint8_t)(p->g + ((0xff * s1a + 0xff) >> 8));
+                p->b = (uint8_t)(p->b + ((0xff * s1a + 0xff) >> 8));
+                
+                p++;
+                x++;
+            }
+        });
     }
     
     size_t len      = _width * _height;
@@ -492,7 +509,7 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     uint16_t *lineLengths = malloc(sizeof(uint16_t) * count * height);
     size_t compressedLength = 0;
     for (int channel = 0; channel < count; ++channel) {
-        for (int i = 0; i < _height; ++i) {
+        for (int i = 0; i < height; ++i) {
             lineLengths[i + channel*height] = encodeRLE(channels[channel] + i * width, NULL, width);
             compressedLength += lineLengths[i + channel * height];
         }
@@ -1382,9 +1399,7 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
             _stream = stream;
         }
         _imageRLE = lineLengths != NULL;
-        NSLog(@"%@ %d", _layerName, needsPlaneInfo);
-        char* r = nil, *g = nil, *b = nil, *a = nil, *m = nil;
-        
+
         int j = 0;
         
         for (; j < _channels; j++) {
@@ -1396,25 +1411,25 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
             if (channelId == -1) { // alpha
                 FMPSDDebug(@"reading alpha");
                 @autoreleasepool {
-                    a = [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
+                    [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
                 }
             }
             else if (channelId == 0) { // r
                 FMPSDDebug(@"reading red");
                 @autoreleasepool {
-                    r = [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
+                    [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
                 }
             }
             else if (channelId == 1) { // g
                 FMPSDDebug(@"reading green");
                 @autoreleasepool {
-                    g = [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
+                    [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
                 }
             }
             else if (channelId == 2) { // b
                 FMPSDDebug(@"reading blue");
                 @autoreleasepool {
-                    b = [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
+                    [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
                 }
             }
             else if (channelId == -2) { // m
@@ -1424,10 +1439,7 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
                 
                 long end = _channelLens[j] + start;
                 @autoreleasepool {
-                    m = [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
-                }
-                if (!m) {
-                    debug(@"whoa- m is empty!");
+                    [self readPlaneFromStream:stream lineLengths:lineLengths needReadPlaneInfo:needsPlaneInfo planeNum:j error:err];
                 }
                 
                 long diff = end - [stream location];
@@ -1457,85 +1469,6 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
         if ((_height <= 0) || (_width <= 0)) {
             return YES;
         }
-#if 0
-        
-        if (!r) {
-            r = [[NSMutableData dataWithLength:sizeof(unsigned char) * _width * _height] mutableBytes];
-        }
-        
-        if (!g) {
-            g = [[NSMutableData dataWithLength:sizeof(unsigned char) * _width * _height] mutableBytes];
-        }
-        
-        if (!b) {
-            b = [[NSMutableData dataWithLength:sizeof(unsigned char) * _width * _height] mutableBytes];
-        }
-        
-        if (!a) {
-            a = [[NSMutableData dataWithLength:sizeof(unsigned char) * _width * _height] mutableBytes];
-            memset(a, 255, _width * _height);
-        }
-        
-        size_t n = _width * _height;
-        
-        if (n) {
-            
-            CGContextRef ctx = CGBitmapContextCreate(nil, _width, _height, 8, _width * 4, [_psd colorSpace], kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
-            
-            FMPSDPixel *c = CGBitmapContextGetData(ctx);
-            
-            
-            // OK, we're going to de-plane our image, and premultiply it as well.
-            dispatch_queue_t queue = dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_HIGH);
-            
-            dispatch_apply(_height, queue, ^(size_t row) {
-                
-                FMPSDPixel *p = &c[_width * row];
-                
-                size_t planeStart = (row * _width);
-                int32_t x = 0;
-                while (x < _width) {
-                    
-                    size_t planeLoc = planeStart + x;
-                    
-                    FMPSDPixelCo ac = a[planeLoc];
-                    FMPSDPixelCo rc = r[planeLoc];
-                    FMPSDPixelCo gc = g[planeLoc];
-                    FMPSDPixelCo bc = b[planeLoc];
-                    
-                    p->a = ac;
-                    
-                    p->r = (rc * ac + 127) / 255;
-                    p->g = (gc * ac + 127) / 255;
-                    p->b = (bc * ac + 127) / 255;
-                    
-                    p++;
-                    x++;
-                }
-            });
-            
-            _image = CGBitmapContextCreateImage(ctx);
-            
-            CGContextRelease(ctx);
-            
-            if (m) {
-#if TARGET_OS_IPHONE
-                CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
-#else
-                CGColorSpaceRef cs = CGColorSpaceCreateWithName(kCGColorSpaceGenericGray);
-#endif
-                
-                CGContextRef alphaMask = CGBitmapContextCreate(m, _maskWidth, _maskHeight, 8, _maskWidth, cs, (CGBitmapInfo)kCGImageAlphaNone);
-                
-                _mask = CGBitmapContextCreateImage(alphaMask);
-                
-                CGColorSpaceRelease(cs);
-                CGContextRelease(alphaMask);
-                
-            }
-            
-        }
-#endif
     }
     return YES;
 }
@@ -1634,81 +1567,81 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
     
     //debug(@"compositeCIImage: %@", _layerName);
     
-    
-    if (!_visible) {
-        return [CIImage emptyImage];
-    }
-    
-    if (_isGroup) {
-        
-        CIImage *i = [[CIImage emptyImage] imageByCroppingToRect:CGRectMake(0, 0, [_psd width], [_psd height])];
-        
-        for (FMPSDLayer *layer in [_layers reverseObjectEnumerator]) {
-            
-            if ([layer visible]) {
-                
-                CIFilter *sourceOver = [CIFilter filterWithName:@"CISourceOverCompositing"];
-                [sourceOver setValue:[layer CIImageForComposite] forKey:kCIInputImageKey];
-                [sourceOver setValue:i forKey:kCIInputBackgroundImageKey];
-                
-                i = [sourceOver valueForKey:kCIOutputImageKey];
-            }
-            
+    @autoreleasepool {
+        if (!_visible) {
+            return [CIImage emptyImage];
         }
         
-        return i;
+        if (_isGroup) {
+            
+            CIImage *i = [[CIImage emptyImage] imageByCroppingToRect:CGRectMake(0, 0, [_psd width], [_psd height])];
+            
+            for (FMPSDLayer *layer in [_layers reverseObjectEnumerator]) {
+                
+                if ([layer visible]) {
+                    
+                    CIFilter *sourceOver = [CIFilter filterWithName:@"CISourceOverCompositing"];
+                    [sourceOver setValue:[layer CIImageForComposite] forKey:kCIInputImageKey];
+                    [sourceOver setValue:i forKey:kCIInputBackgroundImageKey];
+                    
+                    i = [sourceOver valueForKey:kCIOutputImageKey];
+                }
+                
+            }
+            
+            return i;
+        }
+        
+        
+        CIImage *img = nil;
+        CGImageRef image = _image;
+        if (image == NULL && self.psd.delegate) {
+            image = [self.psd.delegate imageForLayer:self];
+        }
+        if (!image) {
+            img = [[CIImage emptyImage] imageByCroppingToRect:CGRectMake(0, 0, _width, _height)];
+        }
+        else {
+            img = [CIImage imageWithCGImage:image];
+        }
+        
+        
+        CGRect r = [self frame];
+        img = [img imageByApplyingTransform:CGAffineTransformMakeTranslation(r.origin.x, r.origin.y)];
+        
+        if (_opacity < 255) {
+            
+            FMPSDAlphaFilter *f = [[FMPSDAlphaFilter alloc] init];
+            
+            [f setValue:img forKey:kCIInputImageKey];
+            [f setAlpha:[NSNumber numberWithFloat:_opacity / 255.f]];
+            
+            img = [f valueForKey:kCIOutputImageKey];
+        }
+        
+        if (_mask) {
+            
+            CIImage *maskImage = [CIImage imageWithCGImage:_mask];
+            CGRect maskFrame = [self maskFrame];
+            maskImage = [maskImage imageByApplyingTransform:CGAffineTransformMakeTranslation(maskFrame.origin.x, maskFrame.origin.y)];
+            
+            CIFilter *filter = [CIFilter filterWithName:@"CIColorInvert"];
+            [filter setValue:maskImage forKey:@"inputImage"];
+            maskImage = [filter valueForKey: @"outputImage"];
+            
+            
+            CIFilter *blendFilter       = [CIFilter filterWithName:@"CIBlendWithMask"];
+            
+            [blendFilter setValue:[CIImage emptyImage] forKey:@"inputImage"];
+            [blendFilter setValue:img forKey:@"inputBackgroundImage"];
+            [blendFilter setValue:maskImage forKey:@"inputMaskImage"];
+            
+            
+            
+            img = [blendFilter valueForKey:kCIOutputImageKey];
+        }
+        return img;
     }
-    
-    
-    CIImage *img = nil;
-    CGImageRef image = _image;
-    if (image == NULL && self.psd.delegate) {
-        image = [self.psd.delegate imageForLayer:self];
-    }
-    if (!image) {
-        img = [[CIImage emptyImage] imageByCroppingToRect:CGRectMake(0, 0, _width, _height)];
-    }
-    else {
-        img = [CIImage imageWithCGImage:image];
-    }
-    
-    
-    CGRect r = [self frame];
-    img = [img imageByApplyingTransform:CGAffineTransformMakeTranslation(r.origin.x, r.origin.y)];
-    
-    if (_opacity < 255) {
-        
-        FMPSDAlphaFilter *f = [[FMPSDAlphaFilter alloc] init];
-        
-        [f setValue:img forKey:kCIInputImageKey];
-        [f setAlpha:[NSNumber numberWithFloat:_opacity / 255.f]];
-        
-        img = [f valueForKey:kCIOutputImageKey];
-    }
-    
-    if (_mask) {
-        
-        CIImage *maskImage = [CIImage imageWithCGImage:_mask];
-        CGRect maskFrame = [self maskFrame];
-        maskImage = [maskImage imageByApplyingTransform:CGAffineTransformMakeTranslation(maskFrame.origin.x, maskFrame.origin.y)];
-        
-        CIFilter *filter = [CIFilter filterWithName:@"CIColorInvert"];
-        [filter setValue:maskImage forKey:@"inputImage"];
-        maskImage = [filter valueForKey: @"outputImage"];
-        
-        
-        CIFilter *blendFilter       = [CIFilter filterWithName:@"CIBlendWithMask"];
-        
-        [blendFilter setValue:[CIImage emptyImage] forKey:@"inputImage"];
-        [blendFilter setValue:img forKey:@"inputBackgroundImage"];
-        [blendFilter setValue:maskImage forKey:@"inputMaskImage"];
-        
-        
-        
-        img = [blendFilter valueForKey:kCIOutputImageKey];
-    }
-    
-    return img;
 }
 
 - (void)writeToFileAsPSD:(NSString *)path {
