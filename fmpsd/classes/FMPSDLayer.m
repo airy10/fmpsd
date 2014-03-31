@@ -14,51 +14,6 @@
 #import <ImageIO/ImageIO.h>
 #import <Accelerate/Accelerate.h>
 
-#if 1
-size_t encodeRLE(const uint8_t *src, uint8_t *dst, size_t n){
-	const uint8_t *p, *run, *dataend;
-    uint8_t *q;
-	size_t count, maxrun;
-    
-    size_t len = 0;
-	dataend = src + n;
-	for( run = src, q = dst; n > 0; run = p, n -= count ){
-		// A run cannot be longer than 128 bytes.
-		maxrun = n < 128 ? n : 128;
-		if(run <= (dataend-3) && run[1] == run[0] && run[2] == run[0]){
-			// 'run' points to at least three duplicated values.
-			// Step forward until run length limit, end of input,
-			// or a non matching byte:
-			for( p = run+3; p < (run+maxrun) && *p == run[0]; )
-				++p;
-			count = p - run;
-			// replace this run in output with two bytes:
-            if (q) {
-                *q++ = 1+256-count; /* flag byte, which encodes count (129..254) */
-                *q++ = run[0];      /* byte value that is duplicated */
-            }
-            len += 2;
-		}else{
-			// If the input doesn't begin with at least 3 duplicated values,
-			// then copy the input block, up to the run length limit,
-			// end of input, or until we see three duplicated values:
-			for( p = run; p < (run+maxrun); )
-				if(p <= (dataend-3) && p[1] == p[0] && p[2] == p[0])
-					break; // 3 bytes repeated end verbatim run
-				else
-					++p;
-			count = p - run;
-            if (q) {
-                *q++ = count-1;        /* flag byte, which encodes count (0..127) */
-                memcpy(q, run, count); /* followed by the bytes in the run */
-                q += count;
-            }
-            len += count + 1;
-		}
-	}
-	return len;
-}
-#else
 static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
 {
     char b[127];
@@ -79,9 +34,10 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
             /* if there's a literal string... */
             if (output)  *output++ = bdex - 1;
             j++;
-            /* write it to the file. */
+            /* write it to the output buffer. */
             if (output)  memcpy(output, b, bdex);
             if (output)  output += bdex;
+            j += bdex;
             bdex = 0;
         }
         if(i > 0)
@@ -103,16 +59,16 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         /* if there's a literal string... */
         if (output) *output++ = bdex - 1;
         j++;
-        /* write it to the file. */
+        /* write it to the output buffer. */
         if (output)  memcpy(output, b, bdex);
         if (output) output += bdex;
+        j += bdex;
 
         bdex = 0;
     }
     
     return j;
 }
-#endif
 
 @interface FMPSDLayer()
 - (BOOL)readLayerInfo:(FMPSDStream*)stream error:(NSError**)err;
