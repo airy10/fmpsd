@@ -1581,7 +1581,8 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
                 if ([layer visible]) {
                     
                     CIFilter *sourceOver = [CIFilter filterWithName:@"CISourceOverCompositing"];
-                    [sourceOver setValue:[layer CIImageForComposite] forKey:kCIInputImageKey];
+                    CIImage *layerImage = [layer CIImageForComposite];
+                    [sourceOver setValue:layerImage forKey:kCIInputImageKey];
                     [sourceOver setValue:i forKey:kCIInputBackgroundImageKey];
                     
                     i = [sourceOver valueForKey:kCIOutputImageKey];
@@ -1595,6 +1596,9 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
         
         CIImage *img = nil;
         CGImageRef image = _image;
+        if (image == NULL && _imageOffset) {
+            image = [self readImage];
+        }
         if (image == NULL && self.psd.delegate) {
             image = [self.psd.delegate imageForLayer:self];
         }

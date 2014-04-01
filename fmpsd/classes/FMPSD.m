@@ -353,7 +353,7 @@ NSString *FMPSDFileTypeForHFSTypeCode(OSType hfsFileTypeCode)
                 }
                 
                 _baseLayerGroup = [FMPSDLayer baseLayer];
-                
+                _baseLayerGroup.psd = self;
                 FMPSDLayer *currentGroup = _baseLayerGroup;
                 
                 // now organize the groups.
@@ -419,6 +419,7 @@ NSString *FMPSDFileTypeForHFSTypeCode(OSType hfsFileTypeCode)
     
     [layer setChannels:_channels];
     [layer setupChannelIdsForCompositeRead];
+    layer.isComposite = YES;
     
     // rgba for composites
     
