@@ -34,7 +34,7 @@
     uint32_t _layerId;
     uint32_t _blendMode;
     
-    __strong FMPSDStream *_stream;
+    FMPSDStream *_stream;
     long _imageOffset;
     long _maskOffset;
     BOOL _needsPlaneInfo;

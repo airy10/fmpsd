@@ -14,8 +14,15 @@
 #import <ImageIO/ImageIO.h>
 #import <Accelerate/Accelerate.h>
 
+// Encode using RLE/packbits the buf into output - http://en.wikipedia.org/wiki/PackBits
+// Returns the size of the encoded result
+// If output is NULL, then just compute the size
 static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
 {
+    if (buf == NULL) {
+        return 0;
+    }
+    
     char b[127];
     unsigned int bdex = 0, i = 0, j = 0, t = 0;
     
@@ -24,44 +31,48 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         i = 0;
         
         /* check for a run of at least three bytes */
-        while((t + i + 3 < size) && (i < 126) && (buf[t + i] == buf[t + i + 1]) &&
-              (buf[t + i] == buf[t + i + 2])) {
-            i++;
+        uint8_t c = buf[t + i];
+        
+        if ((t + i + 3 < size) && (i < 126) && (c == buf[t + i + 1]) &&
+            (c == buf[t + i + 2])) {
+            do {
+                i++;
+            } while ((t + i + 3 < size) && (i < 126) && (c == buf[t + i + 2]));
         }
         /* if there's a run... */
-        if((i > 0 && bdex > 0) || (bdex >= 127))
-        {
-            /* if there's a literal string... */
-            if (output)  *output++ = bdex - 1;
-            j++;
-            /* write it to the output buffer. */
-            if (output)  memcpy(output, b, bdex);
-            if (output)  output += bdex;
-            j += bdex;
+        if((i > 0 && bdex > 0) || (bdex >= 127)) {
+            if (output) {
+                /* if there's a literal string... */
+                *output++ = bdex - 1;
+                /* write it to the output buffer. */
+                memcpy(output, b, bdex);
+                output += bdex;
+            }
+            j += bdex + 1;
             bdex = 0;
         }
-        if(i > 0)
-        {
+        if(i > 0) {
             /* and then write the run. */
             i += 2;
-            if (output)  *output++ = 257-i;
-            if (output)  *output++ = buf[t];
+            if (output) {
+                *output++ = 257-i;
+                *output++ = buf[t];
+            }
             t += i;
             j += 2;
-        }
-        else
-        {
+        } else {
             b[bdex++] = buf[t++];
         }
     } while(t < size);
-    if(bdex)
-    {
-        /* if there's a literal string... */
-        if (output) *output++ = bdex - 1;
-        j++;
-        /* write it to the output buffer. */
-        if (output)  memcpy(output, b, bdex);
-        j += bdex;
+    
+    if(bdex) {
+        if (output) {
+            /* if there's a literal string... */
+            *output++ = bdex - 1;
+            /* write it to the output buffer. */
+            memcpy(output, b, bdex);
+        }
+        j += bdex + 1;
     }
     
     return j;
@@ -219,6 +230,9 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
 
 - (uint32_t)sizeForPlane:(uint8_t *)plane isMask:(BOOL)isMask
 {
+    if (plane == NULL) {
+        return 0;
+    }
     BOOL useRLE = YES;
     int width = isMask?_maskWidth:_width;
     int height = isMask?_maskHeight:_height;
@@ -242,10 +256,7 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
 
 - (void)getPlanesR:(uint8_t **)rPlane g:(uint8_t **)gPlane b:(uint8_t **)bPlane a:(uint8_t **)aPlane m:(uint8_t **)mPlane
 {
-    CGImageRef image = _image;
-    if (image == NULL && self.psd.delegate) {
-        image = [self.psd.delegate imageForLayer:self];
-    }
+    CGImageRef image = self.image;
     if (image == NULL) {
         *aPlane = *rPlane = *gPlane = *bPlane = *mPlane = NULL;
         return;
@@ -407,7 +418,7 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     [stream writeInt32:[self sizeForPlane:g isMask:NO] + 2];
     [stream writeInt16:2];      // B plane
     [stream writeInt32:[self sizeForPlane:b isMask:NO] + 2];
-    
+
     if (_mask) {
         [stream writeInt16:-2]; // mask plane
         [stream writeInt32:[self sizeForPlane:m isMask:YES] + 2];
@@ -509,9 +520,11 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     uint16_t *lineLengths = malloc(sizeof(uint16_t) * count * height);
     size_t compressedLength = 0;
     for (int channel = 0; channel < count; ++channel) {
-        for (int i = 0; i < height; ++i) {
-            lineLengths[i + channel*height] = encodeRLE(channels[channel] + i * width, NULL, width);
-            compressedLength += lineLengths[i + channel * height];
+        if (channels[channel]) {
+            for (int i = 0; i < height; ++i) {
+                lineLengths[i + channel*height] = encodeRLE(channels[channel] + i * width, NULL, width);
+                compressedLength += lineLengths[i + channel * height];
+            }
         }
     }
     size_t uncompressedLen = width * height * 4;
@@ -543,7 +556,9 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         int len = width * height;
         [stream writeInt16:0]; // No compression
         for (int channel = 0; channel < count; ++channel) {
-            [stream writeChars:(char *)channels[channel] length:len];
+            if (channels[channel]) {
+                [stream writeChars:(char *)channels[channel] length:len];
+            }
         }
         totalLength += len + 2;
     }
@@ -1497,8 +1512,11 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
 
 - (CGImageRef)image {
     CGImageRef image = _image;
-    if (image == NULL) {
+    if (image == NULL && _imageOffset) {
         image = [self readImage];
+    }
+    if (image == NULL && self.psd.delegate) {
+        image = [self.psd.delegate imageForLayer:self];
     }
     return image;
 }

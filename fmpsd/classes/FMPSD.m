@@ -551,29 +551,31 @@ NSString *FMPSDFileTypeForHFSTypeCode(OSType hfsFileTypeCode)
         layerAndGlobalMaskStream = nil;
         
         FMPSDLayer *composite = [FMPSDLayer layerWithSize:CGSizeMake(_width, _height) psd:self];
-        
+        [composite setIsComposite:YES];
+
         if (_savingCompositeImageRef) {
             [composite setImage:_savingCompositeImageRef];
         }
         else {
             @autoreleasepool {
-                CIImage *img = [self compositeCIImage];
-                
+                if (composite.image == NULL) {
+                    CIImage *img = [self compositeCIImage];
+                    
 #if TARGET_OS_IPHONE
-                // [[CIContext alloc] init] doesn't work fine on iOS - we get only last image from the chain
-                CIContext *ctx = [CIContext contextWithOptions:0];
+                    // [[CIContext alloc] init] doesn't work fine on iOS - we get only last image from the chain
+                    CIContext *ctx = [CIContext contextWithOptions:@{kCIContextOutputColorSpace:(id)self.colorSpace}];
 #else
-                CIContext *ctx = [[CIContext alloc] init];
+                    CIContext *ctx = [[CIContext alloc] init];
 #endif
-                CGImageRef ref = [ctx createCGImage:img fromRect:CGRectMake(0, 0, _width, _height)];
-                
-                [composite setImage:ref];
-                
-                CGImageRelease(ref);
+                    CGImageRef ref = [ctx createCGImage:img fromRect:CGRectMake(0, 0, _width, _height)];
+                    
+                    [composite setImage:ref];
+                    
+                    CGImageRelease(ref);
+                }
             }
         }
         
-        [composite setIsComposite:YES];
         [composite writeImageDataToStream:stream];
         [composite setImage:NULL];
         
