@@ -42,6 +42,8 @@
     CGImageRef _image;
     CGImageRef _mask;
     
+    uint16_t *_linesLength[5];
+    
     NSMutableArray *_tags;
     
     BOOL _isBase;

@@ -563,7 +563,7 @@ NSString *FMPSDFileTypeForHFSTypeCode(OSType hfsFileTypeCode)
                     
 #if TARGET_OS_IPHONE
                     // [[CIContext alloc] init] doesn't work fine on iOS - we get only last image from the chain
-                    CIContext *ctx = [CIContext contextWithOptions:@{kCIContextOutputColorSpace:(id)self.colorSpace}];
+                    CIContext *ctx = [CIContext contextWithOptions:nil];
 #else
                     CIContext *ctx = [[CIContext alloc] init];
 #endif

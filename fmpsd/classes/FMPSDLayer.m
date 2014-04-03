@@ -142,7 +142,11 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         CGImageRelease(_image);
         _image = nil;
     }
-    
+    for (int i = 0; i < 5; ++i) {
+        if (_linesLength[i]) {
+            free(_linesLength[i]);
+        }
+    }
 }
 
 - (void)writeGroupMarkerToStream:(FMPSDStream*)stream {
@@ -228,7 +232,7 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     free(buffer);
 }
 
-- (uint32_t)sizeForPlane:(uint8_t *)plane isMask:(BOOL)isMask
+- (uint32_t)sizeForPlane:(uint8_t *)plane isMask:(BOOL)isMask linesLength:(uint16_t **)lineHeights
 {
     if (plane == NULL) {
         return 0;
@@ -238,9 +242,16 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     int height = isMask?_maskHeight:_height;
     size_t len = 0;
     if (useRLE) {
+        if (lineHeights) {
+            *lineHeights = malloc(sizeof(uint16_t) * height);
+        }
         size_t compressedLength = 0;
         for (int i = 0; i < height; ++i) {
-            compressedLength += encodeRLE(plane + i * width, NULL, width);
+            size_t len = encodeRLE(plane + i * width, NULL, width);
+            if (lineHeights) {
+                (*lineHeights)[i] = len;
+            }
+            compressedLength += len;
         }
         size_t uncompressedLen = width * height;
         if (uncompressedLen > compressedLength + sizeof(uint16_t) * height) {
@@ -273,11 +284,8 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     
     CGContextSetBlendMode(ctx, kCGBlendModeCopy);
     CGContextDrawImage(ctx, CGRectMake(0, 0, _width, _height), image);
-    
-    
     FMPSDPixel *c = CGBitmapContextGetData(ctx);
-    
-    // let's unpremultiply this guy - but not if we're a composite!
+
     // let's unpremultiply this guy - but not if we're a composite!
     if (!_isComposite) {
         
@@ -346,21 +354,29 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     uint8_t *b = malloc(sizeof(uint8_t) * len);
     uint8_t *a = malloc(sizeof(uint8_t) * len);
     uint8_t *m = nil;
+
+    // Split the planes
+    vImage_Buffer buf;
+    buf.data = c;
+    buf.width = _width;
+    buf.height = _height;
+    buf.rowBytes = _width * 4;
+
+    vImage_Buffer vr = buf;
+    vr.rowBytes = _width;
+    vr.data = r;
+
+    vImage_Buffer vg = vr;
+    vg.data = g;
     
-    // split it up into planes
-    size_t j = 0;
-    while (j < len) {
-        
-        FMPSDPixel p = c[j];
-        
-        a[j] = p.a;
-        r[j] = p.r;
-        g[j] = p.g;
-        b[j] = p.b;
-        
-        j++;
-    }
+    vImage_Buffer vb = vr;
+    vb.data = b;
+
+    vImage_Buffer va = vr;
+    va.data = a;
     
+    vImageConvert_ARGB8888toPlanar8(&buf, &vb, &vg, &vr, &va, 0);
+
     CGContextRelease(ctx);
     
     
@@ -411,17 +427,17 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     [self getPlanesR:&r g:&g b:&b a:&a m:&m];
     
     [stream writeSInt16:-1];    // A plane
-    [stream writeInt32:[self sizeForPlane:a isMask:NO] + 2];
+    [stream writeInt32:[self sizeForPlane:a isMask:NO linesLength:_linesLength + 3] + 2];
     [stream writeInt16:0];      // R plane
-    [stream writeInt32:[self sizeForPlane:r isMask:NO] + 2];
+    [stream writeInt32:[self sizeForPlane:r isMask:NO linesLength:_linesLength + 0] + 2];
     [stream writeInt16:1];      // G plane
-    [stream writeInt32:[self sizeForPlane:g isMask:NO] + 2];
+    [stream writeInt32:[self sizeForPlane:g isMask:NO linesLength:_linesLength + 1] + 2];
     [stream writeInt16:2];      // B plane
-    [stream writeInt32:[self sizeForPlane:b isMask:NO] + 2];
+    [stream writeInt32:[self sizeForPlane:b isMask:NO linesLength:_linesLength + 2] + 2];
 
     if (_mask) {
         [stream writeInt16:-2]; // mask plane
-        [stream writeInt32:[self sizeForPlane:m isMask:YES] + 2];
+        [stream writeInt32:[self sizeForPlane:m isMask:YES linesLength:_linesLength + 4] + 2];
     }
     
     free(a);
@@ -514,40 +530,56 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     }
 }
 
-- (uint32_t)writeChannels:(const uint8_t *const*)channels width:(uint16_t)width height:(uint16_t)height count:(int)count toStream:(FMPSDStream*)stream
+- (uint32_t)writeChannels:(const uint8_t *const*)channels linesLengthIdx:(const int *)linesLengthIdx width:(uint16_t)width height:(uint16_t)height count:(int)count toStream:(FMPSDStream*)stream
 {
     uint32_t totalLength = 0;
-    uint16_t *lineLengths = malloc(sizeof(uint16_t) * count * height);
+    uint16_t *lineLengths[count];
+    if (linesLengthIdx == NULL) {
+        for (int i = 0; i < count; ++i) {
+            lineLengths[i] = malloc(sizeof(uint16_t) * height);
+        }
+    } else {
+        for (int i = 0; i < count; ++i) {
+            lineLengths[i] = _linesLength[linesLengthIdx[i]];
+        }
+    }
     size_t compressedLength = 0;
+    size_t maxLength = 0;
     for (int channel = 0; channel < count; ++channel) {
         if (channels[channel]) {
             for (int i = 0; i < height; ++i) {
-                lineLengths[i + channel*height] = encodeRLE(channels[channel] + i * width, NULL, width);
-                compressedLength += lineLengths[i + channel * height];
+                size_t len = 0;
+                if (linesLengthIdx == NULL) {
+                    lineLengths[channel][i] = encodeRLE(channels[channel] + i * width, NULL, width);
+                }
+                len = lineLengths[channel][i];
+                compressedLength += len;
+                maxLength = MAX(maxLength, len);
             }
         }
     }
-    size_t uncompressedLen = width * height * 4;
+    size_t uncompressedLen = width * height * count;
     if (uncompressedLen > compressedLength + sizeof(uint16_t) * height * count) {
         [stream writeInt16:1]; // RLE compression
         
-        uint8_t *compressedBytes = malloc(compressedLength);
-        
-        uint8_t *ptr = compressedBytes;
-        // Compress all of a planes in a single buffer
-        for (int channel = 0; channel < count; ++channel) {
-            for (int i = 0; i < height; ++i) {
-                ptr += encodeRLE(channels[channel] + i * width, ptr, width);
-            }
-        }
         // Write all of the line lengths
         for (int channel = 0; channel < count; ++channel) {
             for (int i = 0; i < height; ++i) {
-                [stream writeInt16:lineLengths[i + channel * height]];
+                uint16_t len = lineLengths[channel][i];
+                [stream writeInt16:len];
             }
         }
-        // Write the compressed data
-        [stream writeChars:(char *)compressedBytes length:compressedLength];
+
+        uint8_t *compressedBytes = malloc(maxLength);
+        
+        // Compress all of a planes in a single buffer
+        for (int channel = 0; channel < count; ++channel) {
+            for (int i = 0; i < height; ++i) {
+                size_t len = encodeRLE(channels[channel] + i * width, compressedBytes, width);
+                // Write the compressed line
+                [stream writeChars:(char *)compressedBytes length:len];
+            }
+        }
         
         totalLength += compressedLength + 2 + 2*count*height;
 
@@ -562,8 +594,11 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         }
         totalLength += len + 2;
     }
-    free(lineLengths);
-    
+    if (linesLengthIdx == NULL) {
+        for (int i = 0; i < count; ++i) {
+            free(lineLengths[i]);
+        }
+    }
     return totalLength;
 }
 
@@ -601,9 +636,10 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         // Handle each channel separately
         const int kChannelCount = 4;
         const uint8_t *channels[kChannelCount] = { (const uint8_t *)a, (const uint8_t *)r, (const uint8_t *)g, (const uint8_t *)b };
+        const int linesLenghtIdx[kChannelCount] = { 3, 0, 1, 2 };
         uint32_t l = 0;
         for (int channel = 0; channel < kChannelCount; ++channel) {
-            l += [self writeChannels:channels+channel width:_width height:_height count:1 toStream:stream];
+            l += [self writeChannels:channels+channel linesLengthIdx:linesLenghtIdx + channel width:_width height:_height count:1 toStream:stream];
         }
         // Odd-size padding
         if (l % 1) {
@@ -612,7 +648,9 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
         if (m) {
             const int kChannelCount = 1;
             const uint8_t *channels[kChannelCount] = { m };
-            l = [self writeChannels:channels width:_maskWidth height:_maskHeight count:kChannelCount toStream:stream];
+            const int linesLengthIdx[kChannelCount] = { 4 };
+            l = [self writeChannels:channels linesLengthIdx:linesLengthIdx width:_width height:_height count:1 toStream:stream];
+
             // Odd-size padding
             if (l % 1) {
                 [stream writeInt8:0];
@@ -621,13 +659,21 @@ static size_t encodeRLE(const uint8_t *buf, uint8_t* output, size_t size)
     } else {
         const int kChannelCount = 4;
         const uint8_t *channels[kChannelCount] = { (const uint8_t *)r, (const uint8_t *)g, (const uint8_t *)b, (const uint8_t *)a };
-        [self writeChannels:channels width:_width height:_height count:kChannelCount toStream:stream];
+        [self writeChannels:channels linesLengthIdx:NULL width:_width height:_height count:kChannelCount toStream:stream];
     }
     free(r);
     free(g);
     free(b);
     free(a);
     free(m);
+    
+    // We're also done with our line lengths
+    for (int i = 0; i < 5; ++i) {
+        if (_linesLength[i]) {
+            free(_linesLength[i]);
+            _linesLength[i] = NULL;
+        }
+    }
 }
 
 - (BOOL)readLayerInfo:(FMPSDStream*)stream error:(NSError**)err {
@@ -1585,7 +1631,8 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
     
     //debug(@"compositeCIImage: %@", _layerName);
     
-    @autoreleasepool {
+    @autoreleasepool
+    {
         if (!_visible) {
             return [CIImage emptyImage];
         }
@@ -1597,13 +1644,14 @@ static void decodeRLE(char *src, int sindex, int slen, char *dst, int dindex) {
             for (FMPSDLayer *layer in [_layers reverseObjectEnumerator]) {
                 
                 if ([layer visible]) {
-                    
-                    CIFilter *sourceOver = [CIFilter filterWithName:@"CISourceOverCompositing"];
-                    CIImage *layerImage = [layer CIImageForComposite];
-                    [sourceOver setValue:layerImage forKey:kCIInputImageKey];
-                    [sourceOver setValue:i forKey:kCIInputBackgroundImageKey];
-                    
-                    i = [sourceOver valueForKey:kCIOutputImageKey];
+                    @autoreleasepool {
+                        CIFilter *sourceOver = [CIFilter filterWithName:@"CISourceOverCompositing"];
+                        CIImage *layerImage = [layer CIImageForComposite];
+                        [sourceOver setValue:layerImage forKey:kCIInputImageKey];
+                        [sourceOver setValue:i forKey:kCIInputBackgroundImageKey];
+                        
+                        i = [sourceOver valueForKey:kCIOutputImageKey];
+                    }
                 }
                 
             }
