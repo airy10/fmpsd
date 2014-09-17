@@ -7,7 +7,7 @@
 //
 
 #import <CoreGraphics/CoreGraphics.h>
-#import <QuartzCore/QuartzCore.h>
+#import <CoreImage/CoreImage.h>
 #import "FMPSDStream.h"
 #import "FMPSDDescriptor.h"
 

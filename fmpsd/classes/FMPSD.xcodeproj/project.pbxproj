@@ -1,0 +1,282 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4949A6D219C879D600B8590B /* FMPSDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949A6C619C879D600B8590B /* FMPSDUtils.m */; };
+		4949A6D319C879D600B8590B /* FMPSDTextEngineParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949A6C819C879D600B8590B /* FMPSDTextEngineParser.m */; };
+		4949A6D419C879D600B8590B /* FMPSDStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949A6CA19C879D600B8590B /* FMPSDStream.m */; };
+		4949A6D519C879D600B8590B /* FMPSDLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949A6CC19C879D600B8590B /* FMPSDLayer.m */; };
+		4949A6D619C879D600B8590B /* FMPSDDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949A6CE19C879D600B8590B /* FMPSDDescriptor.m */; };
+		4949A6D719C879D600B8590B /* FMPSDCIFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949A6D019C879D600B8590B /* FMPSDCIFilters.m */; };
+		4949A6DB19C87AE200B8590B /* FMPSD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4949A6D919C87AE200B8590B /* FMPSD.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4949A6AA19C8795700B8590B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4949A6AC19C8795700B8590B /* libFMPSD-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libFMPSD-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4949A6C619C879D600B8590B /* FMPSDUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPSDUtils.m; sourceTree = SOURCE_ROOT; };
+		4949A6C719C879D600B8590B /* FMPSDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPSDUtils.h; sourceTree = SOURCE_ROOT; };
+		4949A6C819C879D600B8590B /* FMPSDTextEngineParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPSDTextEngineParser.m; sourceTree = SOURCE_ROOT; };
+		4949A6C919C879D600B8590B /* FMPSDTextEngineParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPSDTextEngineParser.h; sourceTree = SOURCE_ROOT; };
+		4949A6CA19C879D600B8590B /* FMPSDStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPSDStream.m; sourceTree = SOURCE_ROOT; };
+		4949A6CB19C879D600B8590B /* FMPSDStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPSDStream.h; sourceTree = SOURCE_ROOT; };
+		4949A6CC19C879D600B8590B /* FMPSDLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPSDLayer.m; sourceTree = SOURCE_ROOT; };
+		4949A6CD19C879D600B8590B /* FMPSDLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPSDLayer.h; sourceTree = SOURCE_ROOT; };
+		4949A6CE19C879D600B8590B /* FMPSDDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPSDDescriptor.m; sourceTree = SOURCE_ROOT; };
+		4949A6CF19C879D600B8590B /* FMPSDDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPSDDescriptor.h; sourceTree = SOURCE_ROOT; };
+		4949A6D019C879D600B8590B /* FMPSDCIFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPSDCIFilters.m; sourceTree = SOURCE_ROOT; };
+		4949A6D119C879D600B8590B /* FMPSDCIFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPSDCIFilters.h; sourceTree = SOURCE_ROOT; };
+		4949A6D919C87AE200B8590B /* FMPSD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPSD.m; sourceTree = SOURCE_ROOT; };
+		4949A6DA19C87AE200B8590B /* FMPSD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPSD.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4949A6A919C8795700B8590B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4949A6A319C8795700B8590B = {
+			isa = PBXGroup;
+			children = (
+				4949A6AE19C8795700B8590B /* FMPSD */,
+				4949A6AD19C8795700B8590B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4949A6AD19C8795700B8590B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4949A6AC19C8795700B8590B /* libFMPSD-iOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4949A6AE19C8795700B8590B /* FMPSD */ = {
+			isa = PBXGroup;
+			children = (
+				4949A6D919C87AE200B8590B /* FMPSD.m */,
+				4949A6DA19C87AE200B8590B /* FMPSD.h */,
+				4949A6C619C879D600B8590B /* FMPSDUtils.m */,
+				4949A6C719C879D600B8590B /* FMPSDUtils.h */,
+				4949A6C819C879D600B8590B /* FMPSDTextEngineParser.m */,
+				4949A6C919C879D600B8590B /* FMPSDTextEngineParser.h */,
+				4949A6CA19C879D600B8590B /* FMPSDStream.m */,
+				4949A6CB19C879D600B8590B /* FMPSDStream.h */,
+				4949A6CC19C879D600B8590B /* FMPSDLayer.m */,
+				4949A6CD19C879D600B8590B /* FMPSDLayer.h */,
+				4949A6CE19C879D600B8590B /* FMPSDDescriptor.m */,
+				4949A6CF19C879D600B8590B /* FMPSDDescriptor.h */,
+				4949A6D019C879D600B8590B /* FMPSDCIFilters.m */,
+				4949A6D119C879D600B8590B /* FMPSDCIFilters.h */,
+			);
+			path = FMPSD;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4949A6AB19C8795700B8590B /* FMPSD-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4949A6C019C8795800B8590B /* Build configuration list for PBXNativeTarget "FMPSD-iOS" */;
+			buildPhases = (
+				4949A6A819C8795700B8590B /* Sources */,
+				4949A6A919C8795700B8590B /* Frameworks */,
+				4949A6AA19C8795700B8590B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FMPSD-iOS";
+			productName = FMPSD;
+			productReference = 4949A6AC19C8795700B8590B /* libFMPSD-iOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4949A6A419C8795700B8590B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = plasq;
+				TargetAttributes = {
+					4949A6AB19C8795700B8590B = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = 4949A6A719C8795700B8590B /* Build configuration list for PBXProject "FMPSD" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4949A6A319C8795700B8590B;
+			productRefGroup = 4949A6AD19C8795700B8590B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4949A6AB19C8795700B8590B /* FMPSD-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4949A6A819C8795700B8590B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4949A6D219C879D600B8590B /* FMPSDUtils.m in Sources */,
+				4949A6D319C879D600B8590B /* FMPSDTextEngineParser.m in Sources */,
+				4949A6D419C879D600B8590B /* FMPSDStream.m in Sources */,
+				4949A6D719C879D600B8590B /* FMPSDCIFilters.m in Sources */,
+				4949A6D619C879D600B8590B /* FMPSDDescriptor.m in Sources */,
+				4949A6D519C879D600B8590B /* FMPSDLayer.m in Sources */,
+				4949A6DB19C87AE200B8590B /* FMPSD.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4949A6BE19C8795800B8590B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4949A6BF19C8795800B8590B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4949A6C119C8795800B8590B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4949A6C219C8795800B8590B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4949A6A719C8795700B8590B /* Build configuration list for PBXProject "FMPSD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4949A6BE19C8795800B8590B /* Debug */,
+				4949A6BF19C8795800B8590B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4949A6C019C8795800B8590B /* Build configuration list for PBXNativeTarget "FMPSD-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4949A6C119C8795800B8590B /* Debug */,
+				4949A6C219C8795800B8590B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4949A6A419C8795700B8590B /* Project object */;
+}
